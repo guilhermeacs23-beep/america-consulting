@@ -38,13 +38,17 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
   transition:background .4s,padding .4s;
 }
 #nav.scrolled{background:rgba(6,16,30,.94);backdrop-filter:blur(12px);padding:18px 64px;border-bottom:1px solid var(--borderf);}
-.nav-brand{display:flex;flex-direction:column;gap:3px;text-decoration:none;}
+.nav-brand{display:flex;align-items:center;text-decoration:none;}
+.nav-logo-img{height:42px;width:auto;object-fit:contain;display:block;}
+.nav-brand-fallback{display:flex;flex-direction:column;gap:3px;}
 .nav-brand-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--white);}
 .nav-brand-name span{color:var(--white);font-weight:300;}
 .nav-brand-sub{font-size:8px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--white25);}
 .nav-links{display:flex;gap:44px;list-style:none;}
 .nav-links a{font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--white50);text-decoration:none;transition:color .3s;}
 .nav-links a:hover{color:var(--white);}
+.nav-link-valora{color:var(--gold) !important;border:1px solid rgba(28,200,190,.3);padding:5px 14px !important;}
+.nav-link-valora:hover{color:var(--white) !important;background:rgba(28,200,190,.1);}
 .nav-cta{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:gap .3s;}
 .nav-cta::before{content:'';display:block;width:24px;height:1px;background:var(--gold);transition:width .3s;}
 .nav-cta:hover{gap:16px;}
@@ -103,15 +107,15 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 .eyebrow-text{font-size:9px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);}
 
 .hero h1{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(44px,5.8vw,78px);
-  font-weight:300;
-  line-height:1.04;
+  font-family:'Inter',sans-serif;
+  font-size:clamp(38px,5.2vw,70px);
+  font-weight:400;
+  line-height:1.08;
   color:var(--white);
   margin-bottom:28px;
-  letter-spacing:-.01em;
+  letter-spacing:-.02em;
 }
-.hero h1 em{font-style:italic;color:var(--gold2);}
+.hero h1 em{font-style:normal;color:var(--gold2);}
 
 .hero-sub{
   font-size:14px;font-weight:300;line-height:1.8;
@@ -208,11 +212,12 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 .s-eyebrow-line{width:28px;height:1px;background:var(--gold);}
 .s-eyebrow-text{font-size:9px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);}
 .s-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(32px,3.8vw,54px);font-weight:300;
-  line-height:1.08;color:var(--white);
+  font-family:'Inter',sans-serif;
+  font-size:clamp(28px,3.2vw,48px);font-weight:400;
+  line-height:1.12;color:var(--white);
+  letter-spacing:-.02em;
 }
-.s-title em{font-style:italic;color:var(--gold2);}
+.s-title em{font-style:normal;color:var(--gold2);}
 .s-desc{font-size:13px;font-weight:300;line-height:1.85;color:var(--white25);padding-top:8px;}
 
 /* Cards metodologia */
@@ -264,44 +269,34 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 
 /* ═══ VALORA ═══ */
 .valora-wrap{
-  padding:120px 64px;
-  background:rgba(8,18,32,1);
-  border-top:1px solid var(--borderf);
-  display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;
+  padding:100px 64px;
+  background:#F5F6F8;
+  border-top:1px solid rgba(0,0,0,.07);
+  display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:center;
 }
-.valora-copy .s-title{margin-bottom:20px;}
-.valora-copy p{font-size:13px;font-weight:300;line-height:1.85;color:var(--white25);margin-bottom:44px;max-width:380px;}
+.valora-copy .s-title{margin-bottom:20px;color:#0D1F2D;}
+.valora-copy p{font-size:13px;font-weight:300;line-height:1.85;color:rgba(13,31,45,.55);margin-bottom:44px;max-width:380px;}
+.valora-copy .s-eyebrow-text{color:var(--gold);}
+.valora-copy .s-eyebrow-line{background:var(--gold);}
 
-/* Dashboard card */
-.dash{background:rgba(255,255,255,.02);border:1px solid var(--borderg);overflow:hidden;}
-.dash-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 22px;
-  background:rgba(28,200,190,.05);
-  border-bottom:1px solid var(--borderf);
+/* Platform iframe preview */
+.platform-preview{
+  position:relative;
+  width:100%;
+  height:440px;
+  overflow:hidden;
+  border-radius:4px;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
 }
-.dash-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:.22em;color:var(--white);}
-.dash-tag{font-size:8px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--borderg);padding:3px 10px;}
-.dash-sub{font-size:8px;letter-spacing:.1em;color:var(--white25);margin-top:2px;}
-.dash-metrics{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--borderf);}
-.dash-m{padding:18px 18px 16px;border-right:1px solid var(--borderf);text-align:center;}
-.dash-m:last-child{border-right:none;}
-.dash-mv{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--gold2);line-height:1;margin-bottom:5px;}
-.dash-ml{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,235,224,.25);}
-.dash-bars{padding:18px 22px 22px;}
-.dash-bar{margin-bottom:13px;}
-.dash-bar-top{display:flex;justify-content:space-between;font-size:10px;color:var(--white25);margin-bottom:5px;}
-.dash-bar-track{height:2px;background:rgba(255,255,255,.05);overflow:hidden;}
-.dash-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));}
-.dash-footer{
-  padding:12px 22px;
-  border-top:1px solid var(--borderf);
-  display:flex;justify-content:space-between;align-items:center;
+.platform-preview iframe{
+  width:1280px;
+  height:800px;
+  transform:scale(0.58);
+  transform-origin:top left;
+  pointer-events:none;
+  border:none;
 }
-.dash-status{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.1em;color:var(--white25);}
-.dash-dot{width:5px;height:5px;border-radius:50%;background:#3dba6f;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.dash-updated{font-size:9px;letter-spacing:.06em;color:rgba(240,235,224,.18);}
 
 /* ═══ CONTATO ═══ */
 .contact-wrap{padding:120px 64px;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start;}
@@ -404,13 +399,17 @@ footer{
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-brand">
-    <div class="nav-brand-name">AMÉRICA <span>CONSULTING</span></div>
-    <div class="nav-brand-sub">Programa de Gestão Financeira</div>
+    <img src="logo-ac.png" alt="América Consulting" class="nav-logo-img"
+         onerror="this.style.display='none';document.querySelector('.nav-brand-fallback').style.display='flex'"/>
+    <div class="nav-brand-fallback" style="display:none;flex-direction:column;gap:3px;">
+      <div class="nav-brand-name">AMÉRICA <span>CONSULTING</span></div>
+      <div class="nav-brand-sub">Programa de Gestão Financeira</div>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="#metodologia">Metodologia</a></li>
-    <li><a href="#valora">Valora</a></li>
     <li><a href="#contato">Contato</a></li>
+    <li><a href="#valora" class="nav-link-valora">Valora</a></li>
   </ul>
   <a href="#contato" class="nav-cta">Fale com um especialista</a>
 </nav>
@@ -455,10 +454,10 @@ footer{
   </div>
 
   <div class="hero-cities">
-    <div class="city-item"><div class="city-dot"></div>São Paulo · SP</div>
-    <div class="city-item"><div class="city-dot"></div>Rio de Janeiro · RJ</div>
-    <div class="city-item"><div class="city-dot"></div>Curitiba · PR</div>
-    <div class="city-item"><div class="city-dot"></div>Est. 2018</div>
+    <div class="city-item"><div class="city-dot"></div>São Paulo</div>
+    <div class="city-item"><div class="city-dot"></div>Rio de Janeiro</div>
+    <div class="city-item"><div class="city-dot"></div>Curitiba</div>
+    <div class="city-item"><div class="city-dot"></div>Online · Brasil</div>
   </div>
 </section>
 
@@ -544,29 +543,8 @@ footer{
     </a>
   </div>
 
-  <div class="dash reveal">
-    <div class="dash-nav">
-      <div>
-        <div class="dash-brand">VALORA</div>
-        <div class="dash-sub">by América Consulting</div>
-      </div>
-      <div class="dash-tag">Plataforma</div>
-    </div>
-    <div class="dash-metrics">
-      <div class="dash-m"><div class="dash-mv">R$47k</div><div class="dash-ml">Receita nov.</div></div>
-      <div class="dash-m"><div class="dash-mv">18%</div><div class="dash-ml">Margem líq.</div></div>
-      <div class="dash-m"><div class="dash-mv">↑12%</div><div class="dash-ml">vs mês ant.</div></div>
-    </div>
-    <div class="dash-bars">
-      <div class="dash-bar"><div class="dash-bar-top"><span>Diagnóstico</span><span>100%</span></div><div class="dash-bar-track"><div class="dash-bar-fill" style="width:100%"></div></div></div>
-      <div class="dash-bar"><div class="dash-bar-top"><span>Tecnologia & BI</span><span>78%</span></div><div class="dash-bar-track"><div class="dash-bar-fill" style="width:78%"></div></div></div>
-      <div class="dash-bar"><div class="dash-bar-top"><span>Estratégia financeira</span><span>60%</span></div><div class="dash-bar-track"><div class="dash-bar-fill" style="width:60%"></div></div></div>
-      <div class="dash-bar"><div class="dash-bar-top"><span>Acompanhamento</span><span>45%</span></div><div class="dash-bar-track"><div class="dash-bar-fill" style="width:45%"></div></div></div>
-    </div>
-    <div class="dash-footer">
-      <div class="dash-status"><div class="dash-dot"></div>Dados em tempo real</div>
-      <div class="dash-updated">Atualizado agora</div>
-    </div>
+  <div class="platform-preview reveal">
+    <iframe src="valora-platform.html" scrolling="no" title="Plataforma VALORA"></iframe>
   </div>
 </section>
 
@@ -638,3 +616,5 @@ function sendForm(){
 }
 </script>
 </body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
