@@ -722,4 +722,12 @@ function ecoNav(dir){}
 
 // Form
 function sendForm(){
-  const n=document.get
+  const n=document.getElementById('fn').value.trim();
+  const e=document.getElementById('fe').value.trim();
+  if(!n||!e){alert('Por favor preencha nome e e-mail.');return;}
+  document.getElementById('cform').style.display='none';
+  document.getElementById('fsuccess').classList.add('on');
+}
+</script>
+</body>
+</html>
