@@ -37,7 +37,7 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
   padding:28px 64px;
   transition:background .4s,padding .4s;
 }
-#nav.scrolled{background:rgba(6,16,30,.94);backdrop-filter:blur(12px);padding:18px 64px;border-bottom:1px solid var(--borderf);}
+#nav.scrolled{background:rgba(6,16,30,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:18px 64px;border-bottom:1px solid var(--borderf);}
 .nav-brand{display:flex;align-items:center;text-decoration:none;}
 .nav-logo-img{height:56px;width:56px;object-fit:contain;display:block;border-radius:50%;}
 .nav-brand-fallback{display:flex;flex-direction:column;gap:3px;}
@@ -579,21 +579,30 @@ footer{
         <button class="eco-btn" onclick="ecoNav(1)"><svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg></button>
       </div>
     </div>
-    <div class="eco-slides" style="position:relative;overflow:hidden;">
+    <div class="eco-slides" style="position:relative;overflow:hidden;height:320px;">
       <iframe src="valora-platform.html" scrolling="no" frameborder="0"
-        style="width:1280px;height:800px;transform:scale(0.52);transform-origin:top left;pointer-events:none;border:none;display:block;"></iframe>
+        style="position:absolute;top:0;left:0;width:1280px;height:800px;transform:scale(0.48);transform-origin:top left;pointer-events:none;border:none;"></iframe>
       <div class="eco-slide-overlay"></div>
     </div>
   </div>
 </div>
 <script>
-let ecoIdx=0;
-function ecoNav(dir){
-  const slides=document.querySelectorAll('.eco-slide');
-  slides[ecoIdx].classList.remove('active');
-  ecoIdx=(ecoIdx+dir+slides.length)%slides.length;
-  slides[ecoIdx].classList.add('active');
-}
+// Cursor
+const cur=document.getElementById('cur');
+const curR=document.getElementById('cur-r');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';
+  cur.style.top=e.clientY+'px';
+  curR.style.left=e.clientX+'px';
+  curR.style.top=e.clientY+'px';
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);});
+
+// ecoNav (botões carrossel)
+function ecoNav(dir){}
 </script>
 
 <!-- ══ METODOLOGIA ══ -->
@@ -668,4 +677,4 @@ function ecoNav(dir){
     <div class="contact-info">
       <div class="c-row"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>contato@americaconsulting.com.br</div>
       <div class="c-row"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Curitiba, PR — Brasil</div>
-      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(41
+      <div class="c-row"><svg viewBox="0 0
