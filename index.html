@@ -182,6 +182,7 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
   min-height:560px;
   background:var(--bg);
   border-top:1px solid var(--borderf);
+  width:100%;
 }
 .connect-copy{
   padding:100px 72px;
@@ -221,8 +222,10 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 /* ═══ VALORA ECOSYSTEM ═══ */
 .eco-wrap{
   background:#ffffff;
-  padding:80px 64px;
+  padding:80px 80px;
   border-top:1px solid rgba(0,0,0,.07);
+  width:100%;
+  box-sizing:border-box;
 }
 .eco-header{margin-bottom:40px;}
 .eco-header .s-eyebrow-text{color:var(--gold);}
@@ -284,8 +287,16 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 .section.light .front-ico{border-color:rgba(13,31,45,.12);}
 .section.light .front:hover .front-ico{border-color:rgba(28,200,190,.5);background:rgba(28,200,190,.06);}
 
+/* ═══ LAYOUT CONTAINER ═══ */
+.hero-content,.hero-cities,.hero-scroll,
+.connect-wrap,.eco-wrap,
+.section,.valora-wrap,.contact-wrap{
+  max-width:1320px;margin-left:auto;margin-right:auto;
+}
+.hero-cities{max-width:100% !important;}
+
 /* ═══ METODOLOGIA ═══ */
-.section{padding:120px 64px;}
+.section{padding:120px 80px;}
 .section-top{
   display:grid;grid-template-columns:1fr 1fr;gap:64px;
   align-items:end;margin-bottom:72px;
@@ -601,7 +612,14 @@ document.addEventListener('mousemove',e=>{
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);});
 
-// ecoNav (botões carrossel)
+// Reveal on scroll
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}
+  });
+},{threshold:0.04,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
 function ecoNav(dir){}
 </script>
 
@@ -673,8 +691,4 @@ function ecoNav(dir){}
   <div class="contact-copy reveal">
     <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Contato</div></div>
     <div class="s-title">Pronto para<br><em>transformar</em><br>seu negócio?</div>
-    <p>Agende uma conversa sem compromisso. Analisamos seu cenário e mostramos como a metodologia América Consulting gera resultado real.</p>
-    <div class="contact-info">
-      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>contato@americaconsulting.com.br</div>
-      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Curitiba, PR — Brasil</div>
-      <div class="c-row"><svg viewBox="0 0
+    <p>Agende uma conversa sem compromisso. Anali
