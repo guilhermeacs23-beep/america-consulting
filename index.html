@@ -503,50 +503,321 @@ footer{
 .tech-explore:hover{gap:16px;}
 .tech-explore svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:1.5;}
 
-/* Right side: tech grid */
+/* Right side: 3D bubble tree */
 .tech-visual{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;
-  align-content:start;
+  display:flex;align-items:center;justify-content:center;
+  min-height:480px;
+  position:relative;
 }
-.tg-card{
-  padding:22px 20px;
-  border:1px solid var(--borderf);
-  background:rgba(255,255,255,.015);
-  display:flex;flex-direction:column;gap:12px;
-  transition:border-color .35s,background .35s,transform .35s;
-  cursor:none;
+.tech-bubble-scene{
+  position:relative;
+  width:460px;height:460px;
+  flex-shrink:0;
 }
-.tg-card:hover{
-  border-color:rgba(28,200,190,.22);
-  background:rgba(28,200,190,.03);
-  transform:translateY(-3px);
+/* Glow halo behind bubble */
+.tech-bubble-scene::before{
+  content:'';
+  position:absolute;inset:-30px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(28,200,190,.13) 0%,transparent 70%);
+  animation:haloPulse 4s ease-in-out infinite;
 }
-.tg-ico{
-  width:34px;height:34px;
-  border:1px solid var(--borderf);
+@keyframes haloPulse{
+  0%,100%{transform:scale(1);opacity:.7;}
+  50%{transform:scale(1.08);opacity:1;}
+}
+/* Main circular mask */
+.tech-bubble{
+  position:absolute;inset:0;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(28,200,190,.25),
+    0 0 40px rgba(28,200,190,.18),
+    0 0 90px rgba(28,200,190,.1),
+    inset 0 0 60px rgba(0,0,0,.6);
+}
+.tech-bubble img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  filter:brightness(.88) saturate(1.15);
+}
+/* Bubble inner vignette */
+.tech-bubble::after{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,transparent 45%,rgba(6,16,30,.65) 100%);
+  pointer-events:none;
+}
+/* Orbital rings */
+.tech-ring{
+  position:absolute;inset:0;
+  border-radius:50%;
+  pointer-events:none;
+}
+.tech-ring-1{
+  border:1px solid rgba(28,200,190,.35);
+  animation:orbitSpin1 12s linear infinite;
+  box-shadow:0 0 12px rgba(28,200,190,.15),inset 0 0 12px rgba(28,200,190,.08);
+}
+.tech-ring-2{
+  inset:-22px;
+  border:1px solid rgba(28,200,190,.18);
+  border-radius:50%;
+  animation:orbitSpin2 20s linear infinite;
+  position:absolute;
+}
+.tech-ring-3{
+  inset:-44px;
+  border:1px solid rgba(28,200,190,.09);
+  border-radius:50%;
+  animation:orbitSpin3 32s linear infinite reverse;
+  position:absolute;
+}
+@keyframes orbitSpin1{from{transform:rotate(0deg) rotateX(72deg);}to{transform:rotate(360deg) rotateX(72deg);}}
+@keyframes orbitSpin2{from{transform:rotate(0deg) rotateX(60deg) rotateY(20deg);}to{transform:rotate(360deg) rotateX(60deg) rotateY(20deg);}}
+@keyframes orbitSpin3{from{transform:rotate(0deg) rotateX(80deg) rotateY(-10deg);}to{transform:rotate(360deg) rotateX(80deg) rotateY(-10deg);}}
+/* Dot on ring 1 */
+.tech-ring-dot{
+  position:absolute;top:50%;left:-4px;
+  width:7px;height:7px;margin-top:-3.5px;
+  border-radius:50%;
+  background:rgba(28,200,190,1);
+  box-shadow:0 0 10px rgba(28,200,190,.9),0 0 20px rgba(28,200,190,.5);
+}
+#techCanvas{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+/* ═══ BI CAROUSEL SECTION ═══ */
+.bi-section{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:#ECEEF2;
+  border-top:1px solid rgba(0,0,0,.08);
+  padding:100px clamp(40px,8vw,160px);
+  gap:80px;
+  align-items:center;
+}
+.bi-copy .s-title{margin-bottom:20px;color:#0D1F2D;}
+.bi-copy .s-eyebrow{margin-bottom:20px;}
+.bi-copy p{font-size:14px;font-weight:300;line-height:1.85;color:rgba(13,31,45,.65);margin-bottom:40px;max-width:400px;}
+.bi-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:44px;}
+.bi-tag{
+  font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:#0a6e78;border:1px solid rgba(10,110,120,.3);
+  padding:4px 12px;border-radius:2px;
+  background:rgba(10,110,120,.07);
+}
+/* Carousel */
+.bi-carousel-wrap{
+  position:relative;
+  border-radius:10px;
+  box-shadow:0 1px 0 rgba(0,0,0,.08),0 20px 56px rgba(0,0,0,.24);
+  background:#0a1628;
+  aspect-ratio:16/10;
+}
+.bi-slides{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+.bi-slide{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  border-radius:10px;
+  opacity:0;
+  pointer-events:none;
+}
+.bi-slide img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:top left;
+  display:block;
+  transition:transform 8s linear;
+}
+.bi-slide.active img{
+  transform:scale(1.04);
+}
+/* Slide overlay gradient */
+.bi-slide::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 60%,rgba(6,16,30,.7) 100%);
+  pointer-events:none;
+}
+/* Slide label */
+.bi-slide-label{
+  position:absolute;bottom:16px;left:20px;
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  z-index:2;
+}
+/* Dots */
+.bi-dots{
+  position:absolute;bottom:16px;right:20px;
+  display:flex;gap:6px;z-index:2;
+}
+.bi-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:rgba(255,255,255,.3);
+  cursor:pointer;
+  transition:background .3s,transform .3s;
+}
+.bi-dot.on{background:rgba(28,200,190,1);transform:scale(1.3);}
+/* Arrows */
+.bi-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;
+  background:rgba(6,16,30,.7);
+  border:1px solid rgba(28,200,190,.25);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  transition:border-color .3s,background .3s;
+  cursor:pointer;z-index:3;
+  transition:background .2s,border-color .2s;
 }
-.tg-card:hover .tg-ico{border-color:rgba(28,200,190,.4);background:rgba(28,200,190,.07);}
-.tg-ico svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:1.5;}
-.tg-name{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--white50);line-height:1.4;transition:color .3s;}
-.tg-card:hover .tg-name{color:var(--white70);}
-/* Governança — destaque */
-.tg-card.gov{border-color:rgba(28,200,190,.2);background:rgba(28,200,190,.03);}
-.tg-card.gov .tg-ico{border-color:rgba(28,200,190,.4);background:rgba(28,200,190,.08);}
-.tg-card.gov .tg-name{color:var(--white);}
-/* IA — span full width */
-.tg-card.ia{
-  grid-column:1/-1;
-  flex-direction:row;align-items:center;gap:20px;
-  border-color:rgba(28,200,190,.3);
-  background:linear-gradient(120deg,rgba(28,200,190,.06),rgba(6,16,30,.8));
+.bi-arrow:hover{background:rgba(28,200,190,.15);border-color:rgba(28,200,190,.6);}
+.bi-arrow svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;}
+.bi-arrow-prev{left:12px;}
+.bi-arrow-next{right:12px;}
+/* Progress bar */
+.bi-progress{
+  position:absolute;bottom:0;left:0;
+  height:2px;
+  background:rgba(28,200,190,.8);
+  width:0%;
+  transition:width linear;
+  z-index:3;
 }
-.tg-card.ia .tg-ico{width:40px;height:40px;border-color:var(--gold);background:rgba(28,200,190,.1);}
-.tg-card.ia .tg-ico svg{width:16px;height:16px;}
-.tg-card.ia .tg-name{font-size:11px;color:var(--white);font-weight:500;letter-spacing:.16em;}
-.tg-card.ia .tg-sub{font-size:11px;font-weight:300;color:var(--white25);line-height:1.6;margin-top:2px;}
+@media(max-width:860px){
+  .bi-section{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
+}
+.bi-copy .s-eyebrow-text{color:#0a6e78;}
+.bi-copy .s-eyebrow-line{background:#0a6e78;}
+.bi-copy .btn-primary{background:#0a6e78;}
+
+/* Painel BI */
+.bi-panels-wrap{
+  position:relative;
+}
+.bi-panel-box{
+  border-radius:8px;
+  overflow:hidden;
+  background:#0D1F2D;
+  box-shadow:0 24px 64px rgba(0,0,0,.18),0 4px 12px rgba(0,0,0,.12);
+  min-height:340px;
+  position:relative;
+}
+.bi-panel{
+  position:absolute;inset:0;
+  padding:28px;
+  opacity:0;transition:opacity .7s ease;
+  display:flex;flex-direction:column;gap:20px;
+}
+.bi-panel.on{opacity:1;position:relative;}
+.bip-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.bip-title{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.bip-badge{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(28,200,190,.3);padding:3px 10px;}
+/* KPI panel */
+.bip-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.bip-kpi{
+  padding:16px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);
+  border-radius:4px;
+}
+.bk-label{font-size:8px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;}
+.bk-val{font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
+.bk-delta{font-size:10px;font-weight:500;margin-bottom:10px;}
+.bk-delta.up{color:#1CC8BE;}
+.bk-delta.dn{color:#e05b5b;}
+.bk-track{height:3px;background:rgba(255,255,255,.08);border-radius:2px;}
+.bk-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;}
+/* Chart panel */
+.bip-chart{display:flex;flex-direction:column;gap:10px;}
+.bc-row{display:flex;align-items:center;gap:10px;}
+.bc-label{font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);width:90px;flex-shrink:0;text-align:right;}
+.bc-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;}
+.bc-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 1s ease;}
+.bc-val{font-size:9px;color:var(--gold);width:36px;flex-shrink:0;}
+/* Score panel */
+.bip-score{display:flex;align-items:center;justify-content:center;gap:40px;padding:16px 0;}
+.bs-ring{
+  position:relative;width:120px;height:120px;
+  display:flex;align-items:center;justify-content:center;
+}
+.bs-ring svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.bs-ring-val{text-align:center;}
+.bs-ring-num{font-size:36px;font-weight:300;color:#fff;letter-spacing:-.04em;}
+.bs-ring-label{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.bs-items{display:flex;flex-direction:column;gap:12px;}
+.bs-item{display:flex;align-items:center;gap:10px;}
+.bs-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.bs-text{font-size:11px;font-weight:300;color:rgba(255,255,255,.55);}
+/* ── WILL ── */
+.will-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:#030d18;
+  border-top:1px solid rgba(0,180,255,.07);
+  padding:100px clamp(40px,8vw,160px);
+  gap:80px;
+  align-items:center;
+}
+.will-copy .s-eyebrow-text{color:#00b4ff;}
+.will-copy .s-eyebrow-line{background:#00b4ff;}
+.will-copy .s-title{color:#fff;margin-bottom:14px;}
+.will-copy .s-title em{color:#00b4ff;font-style:normal;}
+.will-sub{
+  font-size:14px;font-weight:300;color:rgba(200,230,255,.55);
+  line-height:1.8;max-width:420px;margin-bottom:32px;
+}
+.will-typewriter-wrap{
+  margin-bottom:36px;min-height:56px;
+  display:flex;align-items:flex-start;
+}
+.will-typed{
+  font-family:'Share Tech Mono','Courier New',monospace;
+  font-size:15px;color:#00b4ff;line-height:1.7;
+}
+.will-cursor{
+  display:inline-block;width:2px;height:1.1em;
+  background:#00b4ff;margin-left:3px;
+  vertical-align:text-bottom;
+  animation:willBlink .9s step-end infinite;
+}
+@keyframes willBlink{0%,100%{opacity:1}50%{opacity:0}}
+.will-feats{
+  list-style:none;display:flex;flex-direction:column;
+  gap:12px;margin-bottom:44px;
+}
+.will-feat{
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;font-weight:300;color:rgba(200,230,255,.60);
+}
+.will-feat::before{
+  content:'';width:22px;height:1px;
+  background:linear-gradient(90deg,#00b4ff,transparent);
+  flex-shrink:0;
+}
+.will-iframe-wrap{
+  position:relative;border-radius:14px;overflow:hidden;
+  aspect-ratio:4/3;
+  box-shadow:0 0 0 1px rgba(0,180,255,.14),0 32px 80px rgba(0,0,0,.7),0 0 60px rgba(0,180,255,.06);
+}
+.will-iframe-wrap iframe{
+  width:100%;height:100%;border:none;display:block;
+}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -565,6 +836,8 @@ footer{
   .front{border-bottom:1px solid var(--borderf);}
   .tech-wrap{grid-template-columns:1fr;padding:80px 24px;gap:56px;}
   .tech-visual{grid-template-columns:1fr 1fr;}
+  .will-wrap{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
+  .will-iframe-wrap{aspect-ratio:16/10;}
   .valora-wrap{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
   .contact-wrap{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
   footer{padding:24px;flex-direction:column;gap:12px;text-align:center;}
@@ -589,6 +862,8 @@ footer{
   <ul class="nav-links">
     <li><a href="#metodologia">Metodologia</a></li>
     <li><a href="#tecnologia">Tecnologia</a></li>
+    <li><a href="#bi">Business Intelligence</a></li>
+    <li><a href="#will">WILL</a></li>
     <li><a href="#contato">Contato</a></li>
     <li><a href="#valora" class="nav-link-valora">Valora</a></li>
   </ul>
@@ -598,7 +873,7 @@ footer{
 <!-- ══ HERO ══ -->
 <section class="hero">
   <video class="hero-video" autoplay muted loop playsinline>
-    <source src="globe.mp4" type="video/mp4">
+    <source src="globe.mp4?v=2" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
 
@@ -748,25 +1023,411 @@ footer{
   </div>
 
   <div class="tech-visual reveal reveal-delay-2">
-    <div class="tg-card">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-      <div class="tg-name">SaaS & Sistemas</div>
+    <div class="tech-bubble-scene">
+      <div class="tech-bubble">
+        <img src="tree-digital.png" alt="Tecnologia aplicada"/>
+        <canvas id="techCanvas"></canvas>
+      </div>
+      <div class="tech-ring tech-ring-1"><div class="tech-ring-dot"></div></div>
+      <div class="tech-ring tech-ring-2"></div>
+      <div class="tech-ring tech-ring-3"></div>
     </div>
-    <div class="tg-card">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div class="tg-name">Segurança de Dados</div>
+  </div>
+</section>
+
+<!-- ══ BI ══ -->
+<section class="bi-section" id="bi">
+  <div class="bi-copy reveal">
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Business Intelligence</div></div>
+    <h2 class="s-title">Dados que <em>falam.</em><br>Decisões que <em>vencem.</em></h2>
+    <p>Desenvolvemos dashboards e plataformas de BI personalizados — do diagnóstico ao deploy. Transformamos dados brutos em inteligência visual e acionável para sua operação.</p>
+    <div class="bi-tags">
+      <span class="bi-tag">Power BI</span>
+      <span class="bi-tag">Data Analytics</span>
+      <span class="bi-tag">KPIs em tempo real</span>
+      <span class="bi-tag">Fluxo de Caixa</span>
+      <span class="bi-tag">Controladoria</span>
+      <span class="bi-tag">Relatórios Executivos</span>
     </div>
-    <div class="tg-card">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-      <div class="tg-name">Arquitetura de Software</div>
+    <a href="#contato" class="btn-primary">
+      Quero um dashboard
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+    </a>
+  </div>
+
+  <div class="reveal reveal-delay-2">
+    <div class="bi-carousel-wrap" id="biCarousel">
+      <div class="bi-slides" id="biSlides">
+        <div class="bi-slide active">
+          <img src="carrocel/bi-slide-1.png" alt="Monitor de Preços Diesel S10"/>
+          <div class="bi-slide-label">Monitor de Preços · Diesel S10</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-3.png" alt="C.A.R Real x Antecipação"/>
+          <div class="bi-slide-label">C.A.R · Real x Antecipação</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-4.png" alt="Execução Diária"/>
+          <div class="bi-slide-label">Controladoria · Execução Diária</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-5.png" alt="Custo de Frete Terceiros"/>
+          <div class="bi-slide-label">Logística · Custo Frete Terceiros</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-6.png" alt="CAR Por Cliente"/>
+          <div class="bi-slide-label">C.A.R · Receita por Cliente</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-7.png" alt="Inadimplência por Cliente"/>
+          <div class="bi-slide-label">Controladoria · Inadimplência</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-8.png" alt="Emissões por Mês"/>
+          <div class="bi-slide-label">Fracionado/Lotação · Emissões</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-9.png" alt="Preço UF Postos"/>
+          <div class="bi-slide-label">Monitor de Preços · UF / Postos</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-10.png" alt="Custo Combustível por Posto"/>
+          <div class="bi-slide-label">Combustível · Custo por Posto</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-11.png" alt="Volume e Custo por Dia"/>
+          <div class="bi-slide-label">Combustível · Volume e Custo/Dia</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-12.png" alt="Preço Médio Dia a Dia"/>
+          <div class="bi-slide-label">Preço Médio · Dia a Dia</div>
+        </div>
+        <div class="bi-slide">
+          <img src="carrocel/bi-slide-13.png" alt="Orçado vs Realizado"/>
+          <div class="bi-slide-label">Controladoria · Orçado vs Realizado</div>
+        </div>
+      </div>
+      <button class="bi-arrow bi-arrow-prev" onclick="biNav(-1)"><svg viewBox="0 0 14 14"><path d="M9 2L4 7l5 5"/></svg></button>
+      <button class="bi-arrow bi-arrow-next" onclick="biNav(1)"><svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg></button>
+      <div class="bi-dots" id="biDots"></div>
+      <div class="bi-progress" id="biProgress"></div>
     </div>
-    <div class="tg-card">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><path d="M2 20h20M6 20V10l6-6 6 6v10"/><path d="M10 20v-6h4v6"/></svg></div>
-      <div class="tg-name">Engenharia de Negócios</div>
+  </div>
+</section>
+
+<!-- ══ VALORA ══ -->
+<section class="valora-wrap" id="valora">
+  <div class="valora-copy reveal">
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Tecnologia proprietária</div></div>
+    <div class="s-title">Plataforma <em>Valora</em></div>
+    <p>Dashboards interativos, KPIs em tempo real e visualizações que transformam números complexos em decisões simples. Tecnologia exclusiva entregue a cada cliente da América Consulting.</p>
+    <a href="#contato" class="btn-primary">
+      Solicitar demonstração
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+    </a>
+  </div>
+
+  <div class="platform-preview reveal">
+    <iframe src="valora-platform.html" scrolling="no" title="Plataforma VALORA"></iframe>
+  </div>
+</section>
+
+<!-- ══ WILL ══ -->
+<section class="will-wrap" id="will">
+  <div class="will-copy reveal">
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Inteligência Artificial Aplicada</div></div>
+    <h2 class="s-title">W<em>ILL</em></h2>
+    <p class="will-sub">O assistente executivo de IA treinado nos dados do seu negócio. Um JARVIS para CEOs e líderes — responde sobre finanças, operações e KPIs com maestria de especialista.</p>
+    <div class="will-typewriter-wrap">
+      <span class="will-typed" id="willTyped"></span><span class="will-cursor"></span>
     </div>
-    <div class="tg-card">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-      <div class="tg-name">Compliance Digital</div>
+    <ul class="will-feats">
+      <li class="will-feat">Fala sobre finanças e KPIs em linguagem natural</li>
+      <li class="will-feat">Aprende e memoriza os padrões da sua empresa</li>
+      <li class="will-feat">Age como um sócio estratégico — disponível 24h</li>
+      <li class="will-feat">Integra com dados reais via IA e machine learning</li>
+    </ul>
+    <a href="#contato" class="btn-primary">Quero conhecer o WILL <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+  </div>
+  <div class="will-iframe-wrap reveal reveal-delay-2">
+    <iframe src="will-platform.html" title="WILL AI Assistant" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- ══ CONTATO ══ -->
+<section class="contact-wrap" id="contato">
+  <div class="contact-copy reveal">
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Contato</div></div>
+    <div class="s-title">Pronto para<br><em>transformar</em><br>seu negócio?</div>
+    <p>Agende uma conversa sem compromisso. Analisamos seu cenário e mostramos como a metodologia América Consulting gera resultado real.</p>
+    <div class="contact-info">
+      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>contato@americaconsulting.com.br</div>
+      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Curitiba, PR — Brasil</div>
+      <div class="c-row"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(41) 9 xxxx-xxxx</div>
     </div>
-    <div class="tg-card gov">
-      <div class="tg-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M2 12h2M20 12h2M12 2v2M12 20v2"/></svg
+  </div>
+
+  <div class="reveal">
+    <div class="contact-form" id="cform">
+      <div class="f-row">
+        <div class="f-field"><label class="f-label" for="fn">Nome</label><input class="f-input" type="text" placeholder="Seu nome completo" id="fn"></div>
+        <div class="f-field"><label class="f-label" for="fempresa">Empresa</label><input class="f-input" type="text" placeholder="Nome da empresa" id="fempresa"></div>
+      </div>
+      <div class="f-field"><label class="f-label" for="fe">E-mail</label><input class="f-input" type="email" placeholder="seu@email.com.br" id="fe"></div>
+      <div class="f-field"><label class="f-label" for="fwpp">WhatsApp</label><input class="f-input" type="text" placeholder="(41) 9 xxxx-xxxx" id="fwpp"></div>
+      <div class="f-field">
+        <label class="f-label">Faturamento mensal aproximado</label>
+        <select class="f-select"><option value="" disabled selected>Selecione uma faixa</option><option>Até R$ 50 mil/mês</option><option>R$ 50k – R$ 200k/mês</option><option>R$ 200k – R$ 500k/mês</option><option>Acima de R$ 500k/mês</option></select>
+      </div>
+      <div class="f-field"><label class="f-label">Mensagem (opcional)</label><textarea class="f-textarea" placeholder="Conte brevemente sobre o seu negócio..."></textarea></div>
+      <button class="f-btn" onclick="sendForm()">Enviar mensagem <svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+    </div>
+    <div class="f-success" id="fsuccess">
+      <div class="f-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Mensagem enviada.</h3>
+      <p>Em breve um especialista da América Consulting entrará em contato.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">AMÉRICA <span>CONSULTING</span></div>
+  <div class="f-copy">© 2026 — Todos os direitos reservados</div>
+  <div class="f-prod">Valora Platform</div>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+// Reveal
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Eco nav (placeholder)
+function ecoNav(dir){}
+
+// BI Carousel — 3D cube flip
+(function(){
+  const slides=Array.from(document.querySelectorAll('.bi-slide'));
+  const dotsWrap=document.getElementById('biDots');
+  const progress=document.getElementById('biProgress');
+  if(!slides.length)return;
+  const INTERVAL=4500,DUR=820;
+  let cur=0,total=slides.length,busy=false,timer;
+
+  function initSlide(s,active){
+    s.style.transition='none';
+    s.style.transform=`perspective(900px) rotateY(${active?0:90}deg)`;
+    s.style.opacity=active?'1':'0';
+    s.style.pointerEvents=active?'auto':'none';
+    s.style.zIndex=active?'2':'1';
+    s.classList.toggle('active',active);
+  }
+  slides.forEach((s,i)=>initSlide(s,i===0));
+
+  slides.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='bi-dot'+(i===0?' on':'');
+    d.onclick=()=>goTo(i,i>cur?1:-1);
+    dotsWrap.appendChild(d);
+  });
+
+  function goTo(n,dir){
+    if(busy)return;
+    n=(n+total)%total;
+    if(n===cur)return;
+    busy=true;
+    const prev=cur;
+    cur=n;
+    const T=`transform ${DUR}ms cubic-bezier(.77,0,.175,1),opacity ${(DUR*.72)|0}ms ease`;
+    // Snap incoming to starting angle
+    slides[cur].style.transition='none';
+    slides[cur].style.transform=`perspective(900px) rotateY(${dir>0?90:-90}deg)`;
+    slides[cur].style.opacity='0';
+    slides[cur].style.zIndex='3';
+    slides[cur].offsetHeight;
+    // Animate outgoing
+    slides[prev].style.transition=T;
+    slides[prev].style.transform=`perspective(900px) rotateY(${dir>0?-90:90}deg)`;
+    slides[prev].style.opacity='0';
+    slides[prev].style.zIndex='1';
+    slides[prev].classList.remove('active');
+    // Animate incoming
+    slides[cur].style.transition=T;
+    slides[cur].style.transform='perspective(900px) rotateY(0deg)';
+    slides[cur].style.opacity='1';
+    slides[cur].style.pointerEvents='auto';
+    slides[cur].classList.add('active');
+    Array.from(dotsWrap.children).forEach((d,i)=>d.classList.toggle('on',i===cur));
+    setTimeout(()=>{
+      slides[prev].style.pointerEvents='none';
+      slides[cur].style.zIndex='2';
+      busy=false;
+    },DUR+60);
+    restartProgress();
+  }
+
+  function restartProgress(){
+    progress.style.transition='none';
+    progress.style.width='0%';
+    clearInterval(timer);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      progress.style.transition=`width ${INTERVAL}ms linear`;
+      progress.style.width='100%';
+      timer=setInterval(()=>goTo(cur+1,1),INTERVAL);
+    }));
+  }
+
+  window.biNav=function(dir){goTo(cur+dir,dir);};
+  restartProgress();
+})();
+
+// WILL Typewriter
+(function(){
+  const el=document.getElementById('willTyped');
+  if(!el)return;
+  const phrases=[
+    'Treinado nos dados da sua empresa.',
+    'Responde sobre finanças com precisão cirúrgica.',
+    'Como um Jarvis — mas para executivos reais.',
+    'Aprende, evolui e age como um sócio estratégico.',
+    'KPIs, fluxo de caixa e margens em linguagem natural.',
+    'Machine learning aplicado ao seu negócio.',
+  ];
+  let pi=0,ci=0,del=false;
+  function tick(){
+    const p=phrases[pi];
+    if(!del){
+      el.textContent=p.slice(0,++ci);
+      if(ci>=p.length){del=true;setTimeout(tick,2400);return;}
+      setTimeout(tick,44);
+    }else{
+      el.textContent=p.slice(0,--ci);
+      if(ci<=0){del=false;pi=(pi+1)%phrases.length;setTimeout(tick,380);return;}
+      setTimeout(tick,20);
+    }
+  }
+  setTimeout(tick,800);
+})();
+
+// Tech canvas — particles + binary rain over tree bubble
+(function(){
+  const canvas=document.getElementById('techCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const T='28,200,190', W2='255,255,255';
+  let W,H,particles=[],binCols=[],frame=0;
+
+  // Binary rain columns
+  const CHARS='01';
+  const COL_W=18;
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth*devicePixelRatio;
+    H=canvas.height=canvas.offsetHeight*devicePixelRatio;
+  }
+
+  function mkParticle(){
+    const angle=Math.random()*Math.PI*2;
+    const dist=(Math.random()*.42+.05)*(W/2);
+    return{
+      x:W/2+Math.cos(angle)*dist,
+      y:H/2+Math.sin(angle)*dist,
+      r:Math.random()*1.4+.4,
+      a:Math.random()*.7+.2,
+      da:(Math.random()*.018+.004)*(Math.random()>.5?1:-1),
+      vx:(Math.random()-.5)*.3*devicePixelRatio,
+      vy:(Math.random()-.5)*.3*devicePixelRatio,
+      life:~~(Math.random()*300+120),age:0
+    };
+  }
+
+  function mkBinCol(i){
+    return{
+      x:i*COL_W*devicePixelRatio,
+      y:-(Math.random()*H),
+      speed:(Math.random()*1.2+.5)*devicePixelRatio,
+      chars:Array.from({length:~~(Math.random()*18+8)},()=>Math.random()>.5?'1':'0'),
+      alpha:Math.random()*.35+.1
+    };
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2, cy=H/2, rad=W/2;
+
+    // Clip to circle
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx,cy,rad*.96,0,Math.PI*2);
+    ctx.clip();
+
+    // Binary rain
+    ctx.font=`${11*devicePixelRatio}px monospace`;
+    binCols.forEach(col=>{
+      col.chars.forEach((ch,i)=>{
+        const cy2=col.y+i*14*devicePixelRatio;
+        const fade=i===col.chars.length-1?1:(.15+i/(col.chars.length-1)*.3);
+        ctx.fillStyle=`rgba(${T},${col.alpha*fade})`;
+        ctx.fillText(ch,col.x,cy2);
+      });
+      col.y+=col.speed;
+      if(col.y-col.chars.length*14*devicePixelRatio>H) col.y=-col.chars.length*14*devicePixelRatio;
+      // Occasionally flip a char
+      if(Math.random()<.02) col.chars[~~(Math.random()*col.chars.length)]=Math.random()>.5?'1':'0';
+    });
+
+    // Floating particles
+    particles.forEach((p,i)=>{
+      p.a+=p.da; p.age++;
+      if(p.a>1){p.a=1;p.da*=-1;}
+      if(p.a<0||p.age>p.life){particles[i]=mkParticle();return;}
+      p.x+=p.vx; p.y+=p.vy;
+      // Glow
+      const gr=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*7*devicePixelRatio);
+      gr.addColorStop(0,`rgba(${T},${p.a*.6})`);
+      gr.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=gr;
+      ctx.fillRect(p.x-p.r*7*devicePixelRatio,p.y-p.r*7*devicePixelRatio,p.r*14*devicePixelRatio,p.r*14*devicePixelRatio);
+      // Core
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r*devicePixelRatio,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${T},${p.a})`;
+      ctx.fill();
+    });
+
+    ctx.restore();
+    frame++;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize',()=>resize());
+  resize();
+  const nCols=~~(460/COL_W);
+  binCols=Array.from({length:nCols},(_,i)=>mkBinCol(i));
+  particles=Array.from({length:55},mkParticle);
+  draw();
+})();
+
+// Form
+function sendForm(){
+  const n=document.getElementById('fn').value.trim();
+  const e=document.getElementById('fe').value.trim();
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  if(!n){alert('Por favor preencha seu nome.');return;}
+  if(!e||!emailOk){alert('Por favor preencha um e-mail válido.');return;}
+  document.getElementById('cform').style.display='none';
+  document.getElementById('fsuccess').classList.add('on');
+}
+</script>
+</body>
+</html>
