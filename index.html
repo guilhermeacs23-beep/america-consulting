@@ -176,31 +176,32 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 .city-item:last-child{border-right:none;margin-right:0;padding-right:0;}
 .city-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.6;}
 
-/* ═══ NÚMEROS ═══ */
-.numbers{
-  background:rgba(8,18,32,1);
+/* ═══ CONNECT ═══ */
+.connect-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:560px;
+  background:var(--bg);
   border-top:1px solid var(--borderf);
-  border-bottom:1px solid var(--borderf);
-  display:grid;grid-template-columns:repeat(4,1fr);
 }
-.num-item{
-  padding:52px 48px;
-  border-right:1px solid var(--borderf);
+.connect-copy{
+  padding:100px 72px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.connect-copy .s-title{margin-bottom:20px;color:var(--white);}
+.connect-copy p{font-size:15px;font-weight:300;line-height:1.8;color:var(--white50);margin-bottom:48px;max-width:420px;}
+.connect-img{
   position:relative;overflow:hidden;
-  transition:background .4s;
 }
-.num-item:hover{background:rgba(28,200,190,.04);}
-.num-item:last-child{border-right:none;}
-.num-val{
-  font-family:'Cormorant Garamond',serif;
-  font-size:56px;font-weight:300;
-  color:var(--gold2);line-height:1;margin-bottom:10px;
-  transition:color .3s;
+.connect-img img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:brightness(.88) saturate(.95);
+  transition:transform .8s ease;
 }
-.num-item:hover .num-val{color:var(--gold3);}
-.num-label{font-size:11px;font-weight:300;letter-spacing:.04em;color:var(--white25);line-height:1.6;}
-.num-rule{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
-.num-item:hover .num-rule{transform:scaleX(1);}
+.connect-img:hover img{transform:scale(1.03);}
+.connect-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--bg) 0%,transparent 30%);
+}
 
 /* ═══ METODOLOGIA ═══ */
 .section{padding:120px 64px;}
@@ -379,8 +380,9 @@ footer{
   .hero-content{padding:0 24px;max-width:100%;}
   .hero-coords,.hero-sideline,.hero-cities{display:none;}
   .hero-scroll{left:24px;}
-  .numbers{grid-template-columns:1fr 1fr;}
-  .num-item{padding:36px 28px;}
+  .connect-wrap{grid-template-columns:1fr;}
+  .connect-img{min-height:320px;}
+  .connect-copy{padding:72px 24px;}
   .section{padding:80px 24px;}
   .section-top{grid-template-columns:1fr;gap:24px;}
   .fronts{grid-template-columns:1fr 1fr;}
@@ -457,29 +459,21 @@ footer{
   </div>
 </section>
 
-<!-- ══ NÚMEROS ══ -->
-<div class="numbers reveal">
-  <div class="num-item reveal reveal-delay-1">
-    <div class="num-val">R$45k</div>
-    <div class="num-label">Programa anual<br>de gestão completo</div>
-    <div class="num-rule"></div>
+<!-- ══ CONNECT ══ -->
+<section class="connect-wrap">
+  <div class="connect-copy reveal">
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Transformação</div></div>
+    <h2 class="s-title">Sua empresa pode<br>funcionar sozinha...</h2>
+    <p>Trazemos Tecnologia e gestão com dados precisos.<br>Dê o primeiro passo!</p>
+    <a href="#contato" class="btn-primary">
+      Dar o primeiro passo
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+    </a>
   </div>
-  <div class="num-item reveal reveal-delay-2">
-    <div class="num-val">4</div>
-    <div class="num-label">Frentes de atuação<br>simultâneas</div>
-    <div class="num-rule"></div>
+  <div class="connect-img reveal">
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=85&fit=crop&crop=top" alt="Gestão com propósito"/>
   </div>
-  <div class="num-item reveal reveal-delay-3">
-    <div class="num-val">100%</div>
-    <div class="num-label">Personalizado para<br>cada empresa</div>
-    <div class="num-rule"></div>
-  </div>
-  <div class="num-item reveal" style="transition-delay:.4s">
-    <div class="num-val">Curitiba</div>
-    <div class="num-label">Sede e atendimento<br>em todo o Brasil</div>
-    <div class="num-rule"></div>
-  </div>
-</div>
+</section>
 
 <!-- ══ METODOLOGIA ══ -->
 <section class="section" id="metodologia">
@@ -613,4 +607,4 @@ function sendForm(){
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
