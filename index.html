@@ -39,7 +39,7 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 }
 #nav.scrolled{background:rgba(6,16,30,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:18px 64px;border-bottom:1px solid var(--borderf);}
 .nav-brand{display:flex;align-items:center;text-decoration:none;}
-.nav-logo-img{height:52px;width:auto;object-fit:contain;display:block;}
+.nav-logo-img{height:36px;width:auto;object-fit:contain;display:block;}
 .nav-brand-fallback{display:flex;flex-direction:column;gap:3px;}
 .nav-brand-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--white);}
 .nav-brand-name span{color:var(--white);font-weight:300;}
@@ -347,7 +347,7 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
   display:flex;align-items:center;gap:8px;margin-top:32px;
   font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
   color:var(--gold);text-decoration:none;
-  transition:gap .3s;opacity:0;transition:opacity .3s,gap .3s;
+  opacity:0;transition:opacity .3s,gap .3s;
 }
 .front:hover .front-cta{opacity:1;gap:14px;}
 .front-rule{
@@ -418,7 +418,7 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 }
 .f-input::placeholder,.f-textarea::placeholder{color:rgba(240,235,224,.18);}
 .f-input:focus,.f-select:focus,.f-textarea:focus{border-color:rgba(28,200,190,.45);}
-.f-select{color:rgba(240,235,224,.4);cursor:none;}
+.f-select{color:rgba(240,235,224,.4);cursor:pointer;}
 .f-textarea{resize:none;height:96px;}
 .f-btn{
   background:var(--gold);color:var(--bg);
@@ -463,7 +463,7 @@ footer{
 .reveal-delay-3{transition-delay:.3s;}
 
 /* MOBILE */
-@media(max-width:860px){
+@media(max-width:768px){
   #nav{padding:20px 24px;}
   #nav.scrolled{padding:14px 24px;}
   .nav-links{display:none;}
@@ -491,7 +491,7 @@ footer{
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-brand">
-    <img src="logo-ac-new.png" alt="América Consulting" class="nav-logo-img"
+    <img src="logo2.png" alt="América Consulting" class="nav-logo-img"
          onerror="this.style.display='none';document.querySelector('.nav-brand-fallback').style.display='flex'"/>
     <div class="nav-brand-fallback" style="display:none;flex-direction:column;gap:3px;">
       <div class="nav-brand-name">AMÉRICA <span>CONSULTING</span></div>
@@ -561,40 +561,11 @@ footer{
     </a>
   </div>
   <div class="connect-img reveal">
-    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=85&fit=crop&crop=top" alt="Gestão com propósito"/>
+    <img src="Gemini_Generated_Image_81t0y181t0y181t0.png" alt="Gestão com propósito"/>
   </div>
 </section>
 
-<!-- ══ VALORA ECOSYSTEM ══ -->
-<div class="eco-wrap">
-  <div class="eco-header">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Nosso ecossistema</div></div>
-    <div class="eco-title">Conheça a <strong>Plataforma Valora</strong></div>
-  </div>
-  <div class="eco-card">
-    <div class="eco-copy">
-      <div>
-        <div class="eco-brand">VALOR<span>A</span></div>
-        <div class="eco-tag">by América Consulting</div>
-        <div class="eco-features">
-          <div class="eco-feat"><div class="eco-feat-dot"></div><div class="eco-feat-text">Dashboards financeiros em tempo real com KPIs do seu negócio</div></div>
-          <div class="eco-feat"><div class="eco-feat-dot"></div><div class="eco-feat-text">Inteligência artificial que identifica desperdícios e oportunidades</div></div>
-          <div class="eco-feat"><div class="eco-feat-dot"></div><div class="eco-feat-text">Relatórios executivos automatizados para decisões mais rápidas</div></div>
-          <div class="eco-feat"><div class="eco-feat-dot"></div><div class="eco-feat-text">Simulador de cenários e projeções de crescimento</div></div>
-        </div>
-      </div>
-      <div class="eco-nav">
-        <button class="eco-btn" onclick="ecoNav(-1)"><svg viewBox="0 0 14 14"><path d="M9 2L4 7l5 5"/></svg></button>
-        <button class="eco-btn" onclick="ecoNav(1)"><svg viewBox="0 0 14 14"><path d="M5 2l5 5-5 5"/></svg></button>
-      </div>
-    </div>
-    <div class="eco-slides" style="position:relative;overflow:hidden;height:320px;">
-      <iframe src="valora-platform.html" scrolling="no" frameborder="0"
-        style="position:absolute;top:0;left:0;width:1280px;height:800px;transform:scale(0.48);transform-origin:top left;pointer-events:none;border:none;"></iframe>
-      <div class="eco-slide-overlay"></div>
-    </div>
-  </div>
-</div>
+
 
 <!-- ══ METODOLOGIA ══ -->
 <section class="section light" id="metodologia">
@@ -675,11 +646,11 @@ footer{
   <div class="reveal">
     <div class="contact-form" id="cform">
       <div class="f-row">
-        <div class="f-field"><label class="f-label">Nome</label><input class="f-input" type="text" placeholder="Seu nome completo" id="fn"></div>
-        <div class="f-field"><label class="f-label">Empresa</label><input class="f-input" type="text" placeholder="Nome da empresa"></div>
+        <div class="f-field"><label class="f-label" for="fn">Nome</label><input class="f-input" type="text" placeholder="Seu nome completo" id="fn"></div>
+        <div class="f-field"><label class="f-label" for="fempresa">Empresa</label><input class="f-input" type="text" placeholder="Nome da empresa" id="fempresa"></div>
       </div>
-      <div class="f-field"><label class="f-label">E-mail</label><input class="f-input" type="email" placeholder="seu@email.com.br" id="fe"></div>
-      <div class="f-field"><label class="f-label">WhatsApp</label><input class="f-input" type="text" placeholder="(41) 9 xxxx-xxxx"></div>
+      <div class="f-field"><label class="f-label" for="fe">E-mail</label><input class="f-input" type="email" placeholder="seu@email.com.br" id="fe"></div>
+      <div class="f-field"><label class="f-label" for="fwpp">WhatsApp</label><input class="f-input" type="text" placeholder="(41) 9 xxxx-xxxx" id="fwpp"></div>
       <div class="f-field">
         <label class="f-label">Faturamento mensal aproximado</label>
         <select class="f-select"><option value="" disabled selected>Selecione uma faixa</option><option>Até R$ 50 mil/mês</option><option>R$ 50k – R$ 200k/mês</option><option>R$ 200k – R$ 500k/mês</option><option>Acima de R$ 500k/mês</option></select>
@@ -724,10 +695,13 @@ function ecoNav(dir){}
 function sendForm(){
   const n=document.getElementById('fn').value.trim();
   const e=document.getElementById('fe').value.trim();
-  if(!n||!e){alert('Por favor preencha nome e e-mail.');return;}
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  if(!n){alert('Por favor preencha seu nome.');return;}
+  if(!e||!emailOk){alert('Por favor preencha um e-mail válido.');return;}
   document.getElementById('cform').style.display='none';
   document.getElementById('fsuccess').classList.add('on');
 }
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
