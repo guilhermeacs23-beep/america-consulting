@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VALORA Neural Sphere</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;}
+body{
+  position:relative;
+  background:
+    radial-gradient(circle at center,rgba(0,255,200,0.03) 0%,transparent 25%),
+    radial-gradient(circle at 20% 20%,rgba(0,180,255,0.04),transparent 25%),
+    radial-gradient(circle at 80% 30%,rgba(0,255,150,0.03),transparent 20%),
+    radial-gradient(circle at center,#031018 0%,#010409 50%,#000000 100%);
+}
+canvas{position:fixed;inset:0;}
+.nebula{
+  position:absolute;inset:-20%;
+  background:
+    radial-gradient(circle at 30% 40%,rgba(0,255,180,0.04),transparent 25%),
+    radial-gradient(circle at 70% 50%,rgba(0,180,255,0.03),transparent 30%);
+  filter:blur(140px);
+  animation:nebulaMove 18s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes nebulaMove{
+  0%{transform:translateX(-2%) translateY(-1%) scale(1);}
+  100%{transform:translateX(2%) translateY(2%) scale(1.08);}
+}
+.scanlines{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.01) 1px,transparent 1px);
+  background-size:100% 4px;
+  opacity:.08;mix-blend-mode:soft-light;pointer-events:none;
+}
+.vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(circle,transparent 35%,rgba(0,0,0,0.82) 100%);
+  pointer-events:none;
+}
+
+/* ── HUD ── */
+.hud{
+  position:fixed;z-index:10;
+  font-family:'Inter',sans-serif;
+  font-size:9px;font-weight:300;letter-spacing:2.5px;
+  color:rgba(0,255,180,0.28);text-transform:uppercase;
+  pointer-events:none;
+}
+.hud-tl{top:22px;left:24px;}
+.hud-tr{top:22px;right:24px;text-align:right;}
+.hud-bl{bottom:22px;left:24px;}
+.hud-br{bottom:22px;right:24px;text-align:right;}
+.hud-tl::after,.hud-bl::after{content:' -';color:#00ffcc;opacity:.4;}
+.hud-tr::before,.hud-br::before{content:'- ';color:#00ffcc;opacity:.4;}
+
+#clock{
+  position:fixed;z-index:10;
+  top:20px;left:50%;transform:translateX(-50%);
+  font-family:'Space Mono',monospace;font-size:12px;font-weight:400;letter-spacing:3px;
+  color:#00e5ff;opacity:.50;
+  text-shadow:0 0 10px rgba(0,229,255,0.4);
+  pointer-events:none;
+}
+
+#state-label{
+  position:fixed;z-index:10;
+  bottom:20px;left:50%;transform:translateX(-50%);
+  font-family:'Inter',sans-serif;font-size:9px;font-weight:200;letter-spacing:6px;
+  color:#00ff99;text-transform:uppercase;
+  text-shadow:0 0 12px rgba(0,255,153,0.5);
+  pointer-events:none;
+  animation:fade-pulse 5s ease-in-out infinite;
+  white-space:nowrap;
+}
+@keyframes fade-pulse{0%,100%{opacity:.35}50%{opacity:.85}}
+
+#ai-bar{
+  position:fixed;z-index:10;
+  top:20px;left:24px;
+  display:flex;align-items:center;gap:7px;
+  pointer-events:none;
+}
+.ai-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#00ff99;box-shadow:0 0 7px #00ff99;
+  animation:pulse-dot 2.2s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+.ai-label{
+  font-family:'Inter',sans-serif;font-size:9px;font-weight:300;letter-spacing:3px;
+  color:#00ff99;text-transform:uppercase;opacity:.65;
+}
+.ai-bars{display:flex;align-items:center;gap:2px;height:12px;}
+.ai-bars span{
+  display:block;width:2px;background:#00ff99;border-radius:1px;
+  animation:abar .85s ease-in-out infinite alternate;
+}
+.ai-bars span:nth-child(1){height:3px;animation-delay:0s}
+.ai-bars span:nth-child(2){height:9px;animation-delay:.12s}
+.ai-bars span:nth-child(3){height:12px;animation-delay:.04s}
+.ai-bars span:nth-child(4){height:6px;animation-delay:.22s}
+.ai-bars span:nth-child(5){height:10px;animation-delay:.09s}
+.ai-bars span:nth-child(6){height:4px;animation-delay:.28s}
+@keyframes abar{from{opacity:.2;transform:scaleY(.25)}to{opacity:.85;transform:scaleY(1)}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="nebula"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<div id="ai-bar">
+  <div class="ai-dot"></div>
+  <div class="ai-label">AI Active</div>
+  <div class="ai-bars"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<div id="clock">00:00:00</div>
+
+<div class="hud hud-tr">1 200 Nodes Live</div>
+<div class="hud hud-bl">Neural Network</div>
+<div class="hud hud-br">Connected to ERP</div>
+
+<div id="state-label">Real-time Financial Intelligence</div>
+
+<script>
+(function tick(){
+  document.getElementById('clock').textContent = new Date().toTimeString().slice(0,8);
+  setTimeout(tick,1000);
+})();
+</script>
+<script type="module">
+import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000000,0.026);
+
+const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+camera.position.z = 23;
+
+const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+const sphereGroup = new THREE.Group();
+scene.add(sphereGroup);
+
+const particleCount = 7200;
+const geometry = new THREE.BufferGeometry();
+const positions = [];
+const colors = [];
+const randomness = [];
+const cyan = new THREE.Color('#00e5ff');
+const green = new THREE.Color('#00ff99');
+
+for(let i=0;i<particleCount;i++){
+  const baseRadius = 6.5 + Math.random()*2.5;
+  const phi = Math.random()*Math.PI;
+  const theta = Math.random()*Math.PI*2;
+  const wave1 = Math.sin(phi*3.5)*1.2;
+  const wave2 = Math.cos(theta*2.5)*0.8;
+  const radius = baseRadius + wave1 + wave2;
+  let x = radius*Math.sin(phi)*Math.cos(theta);
+  let y = radius*Math.sin(phi)*Math.sin(theta);
+  let z = radius*Math.cos(phi);
+  x += (Math.random()-0.5)*2.2;
+  y += (Math.random()-0.5)*2.2;
+  z += (Math.random()-0.5)*2.2;
+  positions.push(x,y,z);
+  const mixed = cyan.clone().lerp(green,Math.random());
+  colors.push(mixed.r,mixed.g,mixed.b);
+  randomness.push({speed:0.0005+Math.random()*0.002,offset:Math.random()*Math.PI*2,amplitude:0.08+Math.random()*0.2});
+}
+
+const originalPositions = [...positions];
+
+geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+
+const material = new THREE.PointsMaterial({size:0.055,vertexColors:true,transparent:true,opacity:1,blending:THREE.AdditiveBlending,depthWrite:false});
+const particles = new THREE.Points(geometry,material);
+sphereGroup.add(particles);
+
+const linePositions = [];
+for(let i=0;i<positions.length;i+=24){
+  const x1=positions[i],y1=positions[i+1],z1=positions[i+2];
+  const random=Math.floor(Math.random()*particleCount)*3;
+  const x2=positions[random],y2=positions[random+1],z2=positions[random+2];
+  const dx=x1-x2,dy=y1-y2,dz=z1-z2;
+  const distance=Math.sqrt(dx*dx+dy*dy+dz*dz);
+  if(distance<6){linePositions.push(x1,y1,z1,x2,y2,z2);}
+}
+const lineGeometry = new THREE.BufferGeometry();
+lineGeometry.setAttribute('position',new THREE.Float32BufferAttribute(linePositions,3));
+sphereGroup.add(new THREE.LineSegments(lineGeometry,new THREE.LineBasicMaterial({color:'#66ffee',transparent:true,opacity:0.08})));
+
+const shockwaves = [];
+function createShockwave(){
+  const geo = new THREE.RingGeometry(0.1,0.14,128);
+  const mat = new THREE.MeshBasicMaterial({color:'#00ffee',transparent:true,opacity:0.25,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false});
+  const ring = new THREE.Mesh(geo,mat);
+  ring.rotation.x = Math.random()*Math.PI;
+  ring.rotation.y = Math.random()*Math.PI;
+  ring.rotation.z = Math.random()*Math.PI;
+  ring.userData = {scale:1,speed:0.015+Math.random()*0.015,opacity:0.25};
+  sphereGroup.add(ring);
+  shockwaves.push(ring);
+}
+setInterval(()=>{createShockwave();},1200);
+
+function createOrbit(radius,count,tilt){
+  const orbitGroup = new THREE.Group();
+  const orbitGeometry = new THREE.BufferGeometry();
+  const orbitPositions = [];
+  for(let i=0;i<count;i++){
+    const angle=(i/count)*Math.PI*2;
+    const noise=(Math.random()-0.5)*3;
+    const elliptical=radius+Math.sin(angle*3)*1.5;
+    orbitPositions.push(Math.cos(angle)*elliptical+noise,Math.sin(angle)*radius+noise,(Math.random()-0.5)*4);
+  }
+  orbitGeometry.setAttribute('position',new THREE.Float32BufferAttribute(orbitPositions,3));
+  const orbit = new THREE.Points(orbitGeometry,new THREE.PointsMaterial({color:'#00ffcc',size:0.07,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending,depthWrite:false}));
+  orbit.rotation.x=tilt; orbit.rotation.y=tilt*0.5;
+  orbitGroup.add(orbit);
+  scene.add(orbitGroup);
+  return orbitGroup;
+}
+const orbit1 = createOrbit(10,80,1.2);
+const orbit2 = createOrbit(12,90,0.5);
+const orbit3 = createOrbit(8,70,2);
+
+function createSmokeTexture(){
+  const size=512;
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=size;
+  const ctx=canvas.getContext('2d');
+  const gradient=ctx.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+  gradient.addColorStop(0,'rgba(255,255,255,0.15)');
+  gradient.addColorStop(0.25,'rgba(255,255,255,0.07)');
+  gradient.addColorStop(0.6,'rgba(255,255,255,0.02)');
+  gradient.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=gradient;
+  ctx.fillRect(0,0,size,size);
+  return new THREE.CanvasTexture(canvas);
+}
+const smokeTexture = createSmokeTexture();
+const fogGroup = new THREE.Group();
+scene.add(fogGroup);
+const fogParticles = [];
+function createFogParticle(size,x,y,z,opacity){
+  const material = new THREE.SpriteMaterial({map:smokeTexture,color:'#00ffcc',transparent:true,opacity:opacity,depthWrite:false,blending:THREE.AdditiveBlending});
+  const sprite = new THREE.Sprite(material);
+  sprite.position.set(x,y,z);
+  sprite.scale.set(size,size,size);
+  sprite.userData={rotationSpeed:(Math.random()-0.5)*0.0005,baseY:y,pulse:Math.random()*Math.PI*2};
+  fogGroup.add(sprite);
+  fogParticles.push(sprite);
+}
+for(let i=0;i<32;i++){
+  const angle=(i/32)*Math.PI*2;
+  const radius=7+Math.random()*6;
+  createFogParticle(10+Math.random()*14,Math.cos(angle)*radius,(Math.random()-0.5)*6,Math.sin(angle)*radius,0.015+Math.random()*0.025);
+}
+
+const starGeometry = new THREE.BufferGeometry();
+const starPositions = [];
+for(let i=0;i<9000;i++){starPositions.push((Math.random()-0.5)*250,(Math.random()-0.5)*250,(Math.random()-0.5)*250);}
+starGeometry.setAttribute('position',new THREE.Float32BufferAttribute(starPositions,3));
+const stars = new THREE.Points(starGeometry,new THREE.PointsMaterial({color:'#88ffff',size:0.035,transparent:true,opacity:0.35}));
+scene.add(stars);
+
+const core = new THREE.Mesh(new THREE.SphereGeometry(0.25,32,32),new THREE.MeshBasicMaterial({color:'#00ffee'}));
+scene.add(core);
+
+const light = new THREE.PointLight('#00ffee',5,100);
+light.position.set(0,0,10);
+scene.add(light);
+scene.add(new THREE.AmbientLight('#00ffcc',0.2));
+
+const eruptionGlow = new THREE.PointLight('#00ffee',0,40);
+scene.add(eruptionGlow);
+
+let eruptionStrength = 0;
+let eruptionWave = 0;
+function triggerEruption(){
+  eruptionStrength = 1.5+Math.random()*2.5;
+  eruptionWave = Math.random()*Math.PI*2;
+  setTimeout(()=>{triggerEruption();},2500+Math.random()*5000);
+}
+triggerEruption();
+
+let mouseX=0,mouseY=0;
+document.addEventListener('mousemove',(e)=>{
+  mouseX=(e.clientX/window.innerWidth-0.5);
+  mouseY=(e.clientY/window.innerHeight-0.5);
+});
+
+function animate(){
+  requestAnimationFrame(animate);
+  const pos = geometry.attributes.position.array;
+  for(let i=0;i<particleCount;i++){
+    const data=randomness[i];
+    const ox=originalPositions[i*3],oy=originalPositions[i*3+1],oz=originalPositions[i*3+2];
+    const dist=Math.sqrt(ox*ox+oy*oy+oz*oz);
+    const dirX=ox/dist,dirY=oy/dist,dirZ=oz/dist;
+    const floatX=Math.sin(Date.now()*data.speed+data.offset)*data.amplitude;
+    const floatY=Math.cos(Date.now()*data.speed+data.offset)*data.amplitude;
+    const floatZ=Math.sin(Date.now()*0.0002+data.offset)*data.amplitude;
+    const wave=Math.sin(dist*1.5+Date.now()*0.003+eruptionWave);
+    const force=eruptionStrength*(0.4+Math.random()*0.6)*wave;
+    const explodeX=dirX*force,explodeY=dirY*force,explodeZ=dirZ*force;
+    pos[i*3]+=(ox+floatX+explodeX-pos[i*3])*0.025;
+    pos[i*3+1]+=(oy+floatY+explodeY-pos[i*3+1])*0.025;
+    pos[i*3+2]+=(oz+floatZ+explodeZ-pos[i*3+2])*0.025;
+  }
+  eruptionStrength*=0.985;
+  geometry.attributes.position.needsUpdate=true;
+
+  shockwaves.forEach((ring,index)=>{
+    ring.userData.scale+=ring.userData.speed;
+    ring.scale.set(ring.userData.scale,ring.userData.scale,ring.userData.scale);
+    ring.material.opacity-=0.0025;
+    if(ring.material.opacity<=0){sphereGroup.remove(ring);shockwaves.splice(index,1);}
+  });
+
+  sphereGroup.rotation.y+=0.0012;
+  sphereGroup.rotation.x+=0.0002;
+  sphereGroup.rotation.y+=mouseX*0.004;
+  sphereGroup.rotation.x+=mouseY*0.002;
+
+  orbit1.rotation.z+=0.0015; orbit1.rotation.x+=0.0004;
+  orbit2.rotation.z-=0.0012; orbit2.rotation.y+=0.0005;
+  orbit3.rotation.z+=0.0008; orbit3.rotation.x-=0.0004;
+
+  fogParticles.forEach((fog,index)=>{
+    fog.material.rotation+=fog.userData.rotationSpeed;
+    fog.position.y=fog.userData.baseY+Math.sin(Date.now()*0.0003+fog.userData.pulse)*0.5;
+    fog.material.opacity=0.012+Math.sin(Date.now()*0.0002+index)*0.008;
+  });
+  fogGroup.rotation.y+=0.0002;
+
+  stars.rotation.y+=0.00004;
+
+  const pulse=1+Math.sin(Date.now()*0.002)*0.12;
+  const eruptionPulse=1+eruptionStrength*0.08;
+  core.scale.set(pulse*eruptionPulse,pulse*eruptionPulse,pulse*eruptionPulse);
+
+  light.intensity=4+eruptionStrength*2;
+  core.material.color.setHSL(0.48,1,0.52+eruptionStrength*0.08);
+  eruptionGlow.intensity=eruptionStrength*2.5;
+  eruptionGlow.position.x=Math.sin(Date.now()*0.0008)*2;
+  eruptionGlow.position.y=Math.cos(Date.now()*0.0007)*2;
+
+  renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+</body>
+</html>
