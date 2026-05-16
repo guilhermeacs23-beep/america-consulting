@@ -27,6 +27,12 @@ body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:44px;height:44px;bo
 .nav-links a:hover{color:var(--white);}
 .nav-link-valora{color:var(--gold) !important;border:1px solid rgba(28,200,190,.3);padding:5px 14px !important;}
 .nav-link-valora:hover{color:var(--white) !important;background:rgba(28,200,190,.1);}
+.nav-right{display:flex;align-items:center;gap:22px;}
+.lang-switch{display:flex;align-items:center;gap:2px;}
+.lang-btn{font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--white25);background:none;border:none;cursor:none;padding:5px 7px;transition:color .2s;line-height:1;border-bottom:1px solid transparent;}
+.lang-btn.active{color:var(--gold);border-bottom-color:rgba(28,200,190,.5);}
+.lang-btn:hover{color:var(--white50);}
+.lang-sep{width:1px;height:10px;background:var(--borderf);margin:0 1px;}
 .nav-cta{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:gap .3s;}
 .nav-cta::before{content:'';display:block;width:24px;height:1px;background:var(--gold);transition:width .3s;}
 .nav-cta:hover{gap:16px;}
@@ -240,6 +246,7 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
   .valora-wrap{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
   .contact-wrap{grid-template-columns:1fr;padding:80px 24px;gap:48px;}
   footer{padding:24px;flex-direction:column;gap:12px;text-align:center;}
+  .lang-btn{padding:4px 5px;}
 }
 </style>
 </head>
@@ -255,28 +262,37 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#metodologia">Metodologia</a></li>
-    <li><a href="#tecnologia">Tecnologia</a></li>
-    <li><a href="#bi">Business Intelligence</a></li>
+    <li><a href="#metodologia" data-i18n="nav.metodologia">Metodologia</a></li>
+    <li><a href="#tecnologia" data-i18n="nav.tecnologia">Tecnologia</a></li>
+    <li><a href="#bi" data-i18n="nav.bi">Business Intelligence</a></li>
     <li><a href="#will">WILL</a></li>
-    <li><a href="#contato">Contato</a></li>
+    <li><a href="#contato" data-i18n="nav.contato">Contato</a></li>
     <li><a href="#valora" class="nav-link-valora">Valora</a></li>
   </ul>
-  <a href="#contato" class="nav-cta">Fale com um especialista</a>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    </div>
+    <a href="#contato" class="nav-cta" data-i18n="nav.cta">Fale com um especialista</a>
+  </div>
 </nav>
 <section class="hero">
   <video class="hero-video" autoplay muted loop playsinline><source src="globe.mp4" type="video/mp4"></video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow"><div class="eyebrow-line"></div><div class="eyebrow-dot"></div><div class="eyebrow-text">Programa de Gestão Financeira</div></div>
-    <h1>Dados sem direção<br>são apenas <em>números.</em></h1>
-    <p class="hero-sub">Estruturamos finanças, dados e indicadores para empresários que desejam crescimento com controle, geração de caixa e valorização empresarial.</p>
+    <div class="hero-eyebrow"><div class="eyebrow-line"></div><div class="eyebrow-dot"></div><div class="eyebrow-text" data-i18n="hero.eyebrow">Programa de Gestão Financeira</div></div>
+    <h1 data-i18n-html="hero.h1">Dados sem direção<br>são apenas <em>números.</em></h1>
+    <p class="hero-sub" data-i18n="hero.sub">Estruturamos finanças, dados e indicadores para empresários que desejam crescimento com controle, geração de caixa e valorização empresarial.</p>
     <div class="hero-btns">
-      <a href="#contato" class="btn-primary">Fale com um especialista<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
-      <a href="#valora" class="btn-text">Conhecer a Valora</a>
+      <a href="#contato" class="btn-primary"><span data-i18n="nav.cta">Fale com um especialista</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+      <a href="#valora" class="btn-text" data-i18n="hero.btn2">Conhecer a Valora</a>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-bar"></div><div class="scroll-label">Continue explorando</div></div>
+  <div class="hero-scroll"><div class="scroll-bar"></div><div class="scroll-label" data-i18n="hero.scroll">Continue explorando</div></div>
   <div class="hero-sideline"><div class="hero-sideline-text">EST. 2018</div><div class="hero-sideline-line"></div></div>
   <div class="hero-cities">
     <div class="city-item"><div class="city-dot"></div>New York — USA</div>
@@ -287,43 +303,43 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
 </section>
 <section class="connect-wrap">
   <div class="connect-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Transformação</div></div>
-    <h2 class="s-title">Sua empresa pode<br>funcionar sozinha...</h2>
-    <p>Trazemos Tecnologia e gestão com dados precisos.<br>Dê o primeiro passo!</p>
-    <a href="#contato" class="btn-primary">Dar o primeiro passo<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="connect.eyebrow">Transformação</div></div>
+    <h2 class="s-title" data-i18n-html="connect.title">Sua empresa pode<br>funcionar sozinha...</h2>
+    <p data-i18n-html="connect.text">Trazemos Tecnologia e gestão com dados precisos.<br>Dê o primeiro passo!</p>
+    <a href="#contato" class="btn-primary"><span data-i18n="connect.btn">Dar o primeiro passo</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
   <div class="connect-img reveal"><img src="Gemini_Generated_Image_81t0y181t0y181t0.png" alt="Gestão com propósito"/></div>
 </section>
 <section class="section light" id="metodologia">
   <div class="section-top reveal">
     <div>
-      <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Nossa metodologia</div></div>
-      <div class="s-title">4 frentes.<br><em>1 resultado.</em></div>
+      <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="met.eyebrow">Nossa metodologia</div></div>
+      <div class="s-title" data-i18n-html="met.title">4 frentes.<br><em>1 resultado.</em></div>
     </div>
-    <p class="s-desc">Uma abordagem integrada que une diagnóstico financeiro, tecnologia de ponta, estratégia e acompanhamento contínuo para transformar a gestão do seu negócio de forma definitiva.</p>
+    <p class="s-desc" data-i18n="met.desc">Uma abordagem integrada que une diagnóstico financeiro, tecnologia de ponta, estratégia e acompanhamento contínuo para transformar a gestão do seu negócio de forma definitiva.</p>
   </div>
   <div class="fronts reveal">
-    <div class="front"><div class="front-ghost">01</div><div class="front-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="front-tag">Diagnóstico</div><div class="front-text">Mapeamento completo da saúde financeira, fluxo de caixa e oportunidades ocultas no negócio.</div><a href="#contato" class="front-cta">Saiba mais<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
-    <div class="front"><div class="front-ghost">02</div><div class="front-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7M17.5 14v7"/></svg></div><div class="front-tag">Tecnologia & BI</div><div class="front-text">Plataforma Valora com dashboards em tempo real e automações para decisões mais precisas.</div><a href="#valora" class="front-cta">Conhecer a Valora<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
-    <div class="front"><div class="front-ghost">03</div><div class="front-ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-8"/></svg></div><div class="front-tag">Estratégia Financeira</div><div class="front-text">Planejamento, projeções e estrutura tributária otimizada para crescimento sustentável.</div><a href="#contato" class="front-cta">Saiba mais<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
-    <div class="front"><div class="front-ghost">04</div><div class="front-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="front-tag">Acompanhamento</div><div class="front-text">Reuniões periódicas, relatórios executivos e ajustes contínuos com consultor dedicado.</div><a href="#contato" class="front-cta">Saiba mais<svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
+    <div class="front"><div class="front-ghost">01</div><div class="front-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="front-tag" data-i18n="met.card1.tag">Diagnóstico</div><div class="front-text" data-i18n="met.card1.text">Mapeamento completo da saúde financeira, fluxo de caixa e oportunidades ocultas no negócio.</div><a href="#contato" class="front-cta"><span data-i18n="met.card1.cta">Saiba mais</span><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
+    <div class="front"><div class="front-ghost">02</div><div class="front-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7M17.5 14v7"/></svg></div><div class="front-tag" data-i18n="met.card2.tag">Tecnologia & BI</div><div class="front-text" data-i18n="met.card2.text">Plataforma Valora com dashboards em tempo real e automações para decisões mais precisas.</div><a href="#valora" class="front-cta"><span data-i18n="met.card2.cta">Conhecer a Valora</span><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
+    <div class="front"><div class="front-ghost">03</div><div class="front-ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-8"/></svg></div><div class="front-tag" data-i18n="met.card3.tag">Estratégia Financeira</div><div class="front-text" data-i18n="met.card3.text">Planejamento, projeções e estrutura tributária otimizada para crescimento sustentável.</div><a href="#contato" class="front-cta"><span data-i18n="met.card3.cta">Saiba mais</span><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
+    <div class="front"><div class="front-ghost">04</div><div class="front-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="front-tag" data-i18n="met.card4.tag">Acompanhamento</div><div class="front-text" data-i18n="met.card4.text">Reuniões periódicas, relatórios executivos e ajustes contínuos com consultor dedicado.</div><a href="#contato" class="front-cta"><span data-i18n="met.card4.cta">Saiba mais</span><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><div class="front-rule"></div></div>
   </div>
 </section>
 <section class="tech-wrap" id="tecnologia">
   <div class="tech-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Aplicações Tecnológicas</div></div>
-    <h2 class="s-title">Infraestrutura que<br>sustenta cada <em>decisão.</em></h2>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="tech.eyebrow">Aplicações Tecnológicas</div></div>
+    <h2 class="s-title" data-i18n-html="tech.title">Infraestrutura que<br>sustenta cada <em>decisão.</em></h2>
     <ul class="tech-list">
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Criação de SaaS proprietário</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Sistemas de gestão customizados</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Controle e segurança de dados</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Arquitetura de software</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Engenharia de negócios</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Compliance digital</li>
-      <li class="hl"><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Governança corporativa de dados</li>
-      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span>Inteligência Artificial aplicada</li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li1">Criação de SaaS proprietário</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li2">Sistemas de gestão customizados</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li3">Controle e segurança de dados</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li4">Arquitetura de software</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li5">Engenharia de negócios</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li6">Compliance digital</span></li>
+      <li class="hl"><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li7">Governança corporativa de dados</span></li>
+      <li><span class="tech-check"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></span><span data-i18n="tech.li8">Inteligência Artificial aplicada</span></li>
     </ul>
-    <a href="#contato" class="tech-explore"><svg viewBox="0 0 24 24"><path d="M18 11.5V9a2 2 0 0 0-4 0v2.5M14 10.5a2 2 0 0 0-4 0V11M10 11a2 2 0 0 0-4 0v3l-1-1a2 2 0 0 0-2.83 2.83l3.6 3.6A4 4 0 0 0 8.6 21H14a4 4 0 0 0 4-4v-5.5a2 2 0 0 0-4 0"/></svg>Explore nossas soluções tecnológicas</a>
+    <a href="#contato" class="tech-explore"><svg viewBox="0 0 24 24"><path d="M18 11.5V9a2 2 0 0 0-4 0v2.5M14 10.5a2 2 0 0 0-4 0V11M10 11a2 2 0 0 0-4 0v3l-1-1a2 2 0 0 0-2.83 2.83l3.6 3.6A4 4 0 0 0 8.6 21H14a4 4 0 0 0 4-4v-5.5a2 2 0 0 0-4 0"/></svg><span data-i18n="tech.explore">Explore nossas soluções tecnológicas</span></a>
   </div>
   <div class="tech-visual reveal reveal-delay-2">
     <div class="tech-bubble-scene">
@@ -336,13 +352,13 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
 </section>
 <section class="bi-section" id="bi">
   <div class="bi-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Business Intelligence</div></div>
-    <h2 class="s-title">Dados que <em>falam.</em><br>Decisões que <em>vencem.</em></h2>
-    <p>Desenvolvemos dashboards e plataformas de BI personalizados — do diagnóstico ao deploy. Transformamos dados brutos em inteligência visual e acionável para sua operação.</p>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="bi.eyebrow">Business Intelligence</div></div>
+    <h2 class="s-title" data-i18n-html="bi.title">Dados que <em>falam.</em><br>Decisões que <em>vencem.</em></h2>
+    <p data-i18n="bi.text">Desenvolvemos dashboards e plataformas de BI personalizados — do diagnóstico ao deploy. Transformamos dados brutos em inteligência visual e acionável para sua operação.</p>
     <div class="bi-tags">
       <span class="bi-tag">Power BI</span><span class="bi-tag">Data Analytics</span><span class="bi-tag">KPIs em tempo real</span><span class="bi-tag">Fluxo de Caixa</span><span class="bi-tag">Controladoria</span><span class="bi-tag">Relatórios Executivos</span>
     </div>
-    <a href="#contato" class="btn-primary" style="background:#0a6e78;">Quero um dashboard<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <a href="#contato" class="btn-primary" style="background:#0a6e78;"><span data-i18n="bi.btn">Quero um dashboard</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
   <div class="reveal reveal-delay-2">
     <div class="bi-carousel-wrap" id="biCarousel">
@@ -369,34 +385,34 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
 </section>
 <section class="valora-wrap" id="valora">
   <div class="valora-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Tecnologia proprietária</div></div>
-    <div class="s-title">Plataforma <em>Valora</em></div>
-    <p>Dashboards interativos, KPIs em tempo real e visualizações que transformam números complexos em decisões simples. Tecnologia exclusiva entregue a cada cliente da América Consulting.</p>
-    <a href="#contato" class="btn-primary">Solicitar demonstração<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="valora.eyebrow">Tecnologia proprietária</div></div>
+    <div class="s-title" data-i18n-html="valora.title">Plataforma <em>Valora</em></div>
+    <p data-i18n="valora.text">Dashboards interativos, KPIs em tempo real e visualizações que transformam números complexos em decisões simples. Tecnologia exclusiva entregue a cada cliente da América Consulting.</p>
+    <a href="#contato" class="btn-primary"><span data-i18n="valora.btn">Solicitar demonstração</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
   <div class="platform-preview reveal"><iframe src="valora-platform.html" scrolling="no" title="Plataforma VALORA"></iframe></div>
 </section>
 <section class="will-wrap" id="will">
   <div class="will-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Inteligência Artificial Aplicada</div></div>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="will.eyebrow">Inteligência Artificial Aplicada</div></div>
     <h2 class="s-title">W<em>ILL</em></h2>
-    <p class="will-sub">O assistente executivo de IA treinado nos dados do seu negócio. Um JARVIS para CEOs e líderes — responde sobre finanças, operações e KPIs com maestria de especialista.</p>
+    <p class="will-sub" data-i18n="will.sub">O assistente executivo de IA treinado nos dados do seu negócio. Um JARVIS para CEOs e líderes — responde sobre finanças, operações e KPIs com maestria de especialista.</p>
     <div class="will-typewriter-wrap"><span class="will-typed" id="willTyped"></span><span class="will-cursor"></span></div>
     <ul class="will-feats">
-      <li class="will-feat">Fala sobre finanças e KPIs em linguagem natural</li>
-      <li class="will-feat">Aprende e memoriza os padrões da sua empresa</li>
-      <li class="will-feat">Age como um sócio estratégico — disponível 24h</li>
-      <li class="will-feat">Integra com dados reais via IA e machine learning</li>
+      <li class="will-feat" data-i18n="will.feat1">Fala sobre finanças e KPIs em linguagem natural</li>
+      <li class="will-feat" data-i18n="will.feat2">Aprende e memoriza os padrões da sua empresa</li>
+      <li class="will-feat" data-i18n="will.feat3">Age como um sócio estratégico — disponível 24h</li>
+      <li class="will-feat" data-i18n="will.feat4">Integra com dados reais via IA e machine learning</li>
     </ul>
-    <a href="#contato" class="btn-primary">Quero conhecer o WILL<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+    <a href="#contato" class="btn-primary"><span data-i18n="will.btn">Quero conhecer o WILL</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
   <div class="will-iframe-wrap reveal reveal-delay-2"><iframe src="will-platform.html" title="WILL AI Assistant" loading="lazy"></iframe></div>
 </section>
 <section class="contact-wrap" id="contato">
   <div class="contact-copy reveal">
-    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text">Contato</div></div>
-    <div class="s-title">Pronto para<br><em>transformar</em><br>seu negócio?</div>
-    <p>Agende uma conversa sem compromisso. Analisamos seu cenário e mostramos como a metodologia América Consulting gera resultado real.</p>
+    <div class="s-eyebrow"><div class="s-eyebrow-line"></div><div class="s-eyebrow-text" data-i18n="contact.eyebrow">Contato</div></div>
+    <div class="s-title" data-i18n-html="contact.title">Pronto para<br><em>transformar</em><br>seu negócio?</div>
+    <p data-i18n="contact.text">Agende uma conversa sem compromisso. Analisamos seu cenário e mostramos como a metodologia América Consulting gera resultado real.</p>
     <div class="contact-info">
       <div class="c-row"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>contato@americaconsulting.com.br</div>
       <div class="c-row"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Curitiba, PR — Brasil</div>
@@ -406,19 +422,19 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
   <div class="reveal">
     <div class="contact-form" id="cform">
       <div class="f-row">
-        <div class="f-field"><label class="f-label" for="fn">Nome</label><input class="f-input" type="text" placeholder="Seu nome completo" id="fn"></div>
-        <div class="f-field"><label class="f-label" for="fempresa">Empresa</label><input class="f-input" type="text" placeholder="Nome da empresa" id="fempresa"></div>
+        <div class="f-field"><label class="f-label" for="fn" data-i18n="contact.fn">Nome</label><input class="f-input" type="text" placeholder="Seu nome completo" id="fn" data-i18n-ph="contact.fn.ph"></div>
+        <div class="f-field"><label class="f-label" for="fempresa" data-i18n="contact.empresa">Empresa</label><input class="f-input" type="text" placeholder="Nome da empresa" id="fempresa" data-i18n-ph="contact.empresa.ph"></div>
       </div>
-      <div class="f-field"><label class="f-label" for="fe">E-mail</label><input class="f-input" type="email" placeholder="seu@email.com.br" id="fe"></div>
-      <div class="f-field"><label class="f-label" for="fwpp">WhatsApp</label><input class="f-input" type="text" placeholder="(41) 9 xxxx-xxxx" id="fwpp"></div>
-      <div class="f-field"><label class="f-label">Faturamento mensal aproximado</label><select class="f-select"><option value="" disabled selected>Selecione uma faixa</option><option>Até R$ 50 mil/mês</option><option>R$ 50k – R$ 200k/mês</option><option>R$ 200k – R$ 500k/mês</option><option>Acima de R$ 500k/mês</option></select></div>
-      <div class="f-field"><label class="f-label">Mensagem (opcional)</label><textarea class="f-textarea" placeholder="Conte brevemente sobre o seu negócio..."></textarea></div>
-      <button class="f-btn" onclick="sendForm()">Enviar mensagem<svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
+      <div class="f-field"><label class="f-label" for="fe" data-i18n="contact.email">E-mail</label><input class="f-input" type="email" placeholder="seu@email.com.br" id="fe"></div>
+      <div class="f-field"><label class="f-label" for="fwpp" data-i18n="contact.wpp">WhatsApp</label><input class="f-input" type="text" placeholder="(41) 9 xxxx-xxxx" id="fwpp"></div>
+      <div class="f-field"><label class="f-label" data-i18n="contact.fat">Faturamento mensal aproximado</label><select class="f-select" id="fselect"><option value="" disabled selected>Selecione uma faixa</option><option>Até R$ 50 mil/mês</option><option>R$ 50k – R$ 200k/mês</option><option>R$ 200k – R$ 500k/mês</option><option>Acima de R$ 500k/mês</option></select></div>
+      <div class="f-field"><label class="f-label" data-i18n="contact.msg">Mensagem (opcional)</label><textarea class="f-textarea" id="fmsg" data-i18n-ph="contact.msg.ph" placeholder="Conte brevemente sobre o seu negócio..."></textarea></div>
+      <button class="f-btn" onclick="sendForm()"><span data-i18n="contact.btn">Enviar mensagem</span><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></button>
     </div>
     <div class="f-success" id="fsuccess">
       <div class="f-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <h3>Mensagem enviada.</h3>
-      <p>Em breve um especialista da América Consulting entrará em contato.</p>
+      <h3 data-i18n="contact.success.h3">Mensagem enviada.</h3>
+      <p data-i18n="contact.success.p">Em breve um especialista da América Consulting entrará em contato.</p>
     </div>
   </div>
 </section>
@@ -428,6 +444,90 @@ footer{background:rgba(4,10,20,1);border-top:1px solid var(--borderf);padding:28
   <div class="f-prod">Valora Platform</div>
 </footer>
 <script>
+const I18N={
+pt:{
+  "nav.metodologia":"Metodologia","nav.tecnologia":"Tecnologia","nav.bi":"Business Intelligence","nav.contato":"Contato","nav.cta":"Fale com um especialista",
+  "hero.eyebrow":"Programa de Gestão Financeira","hero.h1":"Dados sem direção<br>são apenas <em>números.</em>","hero.sub":"Estruturamos finanças, dados e indicadores para empresários que desejam crescimento com controle, geração de caixa e valorização empresarial.","hero.btn2":"Conhecer a Valora","hero.scroll":"Continue explorando",
+  "connect.eyebrow":"Transformação","connect.title":"Sua empresa pode<br>funcionar sozinha...","connect.text":"Trazemos Tecnologia e gestão com dados precisos.<br>Dê o primeiro passo!","connect.btn":"Dar o primeiro passo",
+  "met.eyebrow":"Nossa metodologia","met.title":"4 frentes.<br><em>1 resultado.</em>","met.desc":"Uma abordagem integrada que une diagnóstico financeiro, tecnologia de ponta, estratégia e acompanhamento contínuo para transformar a gestão do seu negócio de forma definitiva.",
+  "met.card1.tag":"Diagnóstico","met.card1.text":"Mapeamento completo da saúde financeira, fluxo de caixa e oportunidades ocultas no negócio.","met.card1.cta":"Saiba mais",
+  "met.card2.tag":"Tecnologia & BI","met.card2.text":"Plataforma Valora com dashboards em tempo real e automações para decisões mais precisas.","met.card2.cta":"Conhecer a Valora",
+  "met.card3.tag":"Estratégia Financeira","met.card3.text":"Planejamento, projeções e estrutura tributária otimizada para crescimento sustentável.","met.card3.cta":"Saiba mais",
+  "met.card4.tag":"Acompanhamento","met.card4.text":"Reuniões periódicas, relatórios executivos e ajustes contínuos com consultor dedicado.","met.card4.cta":"Saiba mais",
+  "tech.eyebrow":"Aplicações Tecnológicas","tech.title":"Infraestrutura que<br>sustenta cada <em>decisão.</em>",
+  "tech.li1":"Criação de SaaS proprietário","tech.li2":"Sistemas de gestão customizados","tech.li3":"Controle e segurança de dados","tech.li4":"Arquitetura de software","tech.li5":"Engenharia de negócios","tech.li6":"Compliance digital","tech.li7":"Governança corporativa de dados","tech.li8":"Inteligência Artificial aplicada","tech.explore":"Explore nossas soluções tecnológicas",
+  "bi.eyebrow":"Business Intelligence","bi.title":"Dados que <em>falam.</em><br>Decisões que <em>vencem.</em>","bi.text":"Desenvolvemos dashboards e plataformas de BI personalizados — do diagnóstico ao deploy. Transformamos dados brutos em inteligência visual e acionável para sua operação.","bi.btn":"Quero um dashboard",
+  "valora.eyebrow":"Tecnologia proprietária","valora.title":"Plataforma <em>Valora</em>","valora.text":"Dashboards interativos, KPIs em tempo real e visualizações que transformam números complexos em decisões simples. Tecnologia exclusiva entregue a cada cliente da América Consulting.","valora.btn":"Solicitar demonstração",
+  "will.eyebrow":"Inteligência Artificial Aplicada","will.sub":"O assistente executivo de IA treinado nos dados do seu negócio. Um JARVIS para CEOs e líderes — responde sobre finanças, operações e KPIs com maestria de especialista.",
+  "will.feat1":"Fala sobre finanças e KPIs em linguagem natural","will.feat2":"Aprende e memoriza os padrões da sua empresa","will.feat3":"Age como um sócio estratégico — disponível 24h","will.feat4":"Integra com dados reais via IA e machine learning","will.btn":"Quero conhecer o WILL",
+  "will.phrases":["Treinado nos dados da sua empresa.","Responde sobre finanças com precisão cirúrgica.","Como um Jarvis — mas para executivos reais.","Aprende, evolui e age como um sócio estratégico.","KPIs, fluxo de caixa e margens em linguagem natural.","Machine learning aplicado ao seu negócio."],
+  "contact.eyebrow":"Contato","contact.title":"Pronto para<br><em>transformar</em><br>seu negócio?","contact.text":"Agende uma conversa sem compromisso. Analisamos seu cenário e mostramos como a metodologia América Consulting gera resultado real.",
+  "contact.fn":"Nome","contact.fn.ph":"Seu nome completo","contact.empresa":"Empresa","contact.empresa.ph":"Nome da empresa","contact.email":"E-mail","contact.wpp":"WhatsApp",
+  "contact.fat":"Faturamento mensal aproximado","contact.fat.ph":"Selecione uma faixa","contact.fat.op1":"Até R$ 50 mil/mês","contact.fat.op2":"R$ 50k – R$ 200k/mês","contact.fat.op3":"R$ 200k – R$ 500k/mês","contact.fat.op4":"Acima de R$ 500k/mês",
+  "contact.msg":"Mensagem (opcional)","contact.msg.ph":"Conte brevemente sobre o seu negócio...","contact.btn":"Enviar mensagem",
+  "contact.success.h3":"Mensagem enviada.","contact.success.p":"Em breve um especialista da América Consulting entrará em contato.",
+  "alert.name":"Por favor preencha seu nome.","alert.email":"Por favor preencha um e-mail válido."
+},
+en:{
+  "nav.metodologia":"Methodology","nav.tecnologia":"Technology","nav.bi":"Business Intelligence","nav.contato":"Contact","nav.cta":"Talk to a specialist",
+  "hero.eyebrow":"Financial Management Program","hero.h1":"Data without direction<br>are just <em>numbers.</em>","hero.sub":"We structure finances, data and indicators for entrepreneurs seeking growth with control, cash generation and business valuation.","hero.btn2":"Discover Valora","hero.scroll":"Keep exploring",
+  "connect.eyebrow":"Transformation","connect.title":"Your company can<br>run itself...","connect.text":"We bring Technology and management with precise data.<br>Take the first step!","connect.btn":"Take the first step",
+  "met.eyebrow":"Our methodology","met.title":"4 fronts.<br><em>1 result.</em>","met.desc":"An integrated approach combining financial diagnosis, cutting-edge technology, strategy and continuous follow-up to definitively transform the management of your business.",
+  "met.card1.tag":"Diagnosis","met.card1.text":"Complete mapping of financial health, cash flow and hidden opportunities in the business.","met.card1.cta":"Learn more",
+  "met.card2.tag":"Technology & BI","met.card2.text":"Valora platform with real-time dashboards and automations for more precise decisions.","met.card2.cta":"Discover Valora",
+  "met.card3.tag":"Financial Strategy","met.card3.text":"Planning, projections and optimized tax structure for sustainable growth.","met.card3.cta":"Learn more",
+  "met.card4.tag":"Follow-up","met.card4.text":"Periodic meetings, executive reports and continuous adjustments with a dedicated consultant.","met.card4.cta":"Learn more",
+  "tech.eyebrow":"Technological Applications","tech.title":"Infrastructure that<br>supports every <em>decision.</em>",
+  "tech.li1":"Proprietary SaaS creation","tech.li2":"Custom management systems","tech.li3":"Data control and security","tech.li4":"Software architecture","tech.li5":"Business engineering","tech.li6":"Digital compliance","tech.li7":"Corporate data governance","tech.li8":"Applied Artificial Intelligence","tech.explore":"Explore our technology solutions",
+  "bi.eyebrow":"Business Intelligence","bi.title":"Data that <em>speaks.</em><br>Decisions that <em>win.</em>","bi.text":"We develop custom BI dashboards and platforms — from diagnosis to deployment. We transform raw data into visual and actionable intelligence for your operation.","bi.btn":"I want a dashboard",
+  "valora.eyebrow":"Proprietary technology","valora.title":"<em>Valora</em> Platform","valora.text":"Interactive dashboards, real-time KPIs and visualizations that transform complex numbers into simple decisions. Exclusive technology delivered to every América Consulting client.","valora.btn":"Request a demo",
+  "will.eyebrow":"Applied Artificial Intelligence","will.sub":"The AI executive assistant trained on your business data. A JARVIS for CEOs and leaders — answers about finance, operations and KPIs with expert mastery.",
+  "will.feat1":"Talks about finance and KPIs in natural language","will.feat2":"Learns and memorizes your company patterns","will.feat3":"Acts as a strategic partner — available 24/7","will.feat4":"Integrates with real data via AI and machine learning","will.btn":"Discover WILL",
+  "will.phrases":["Trained on your company data.","Answers about finance with surgical precision.","Like a Jarvis — but for real executives.","Learns, evolves and acts as a strategic partner.","KPIs, cash flow and margins in natural language.","Machine learning applied to your business."],
+  "contact.eyebrow":"Contact","contact.title":"Ready to<br><em>transform</em><br>your business?","contact.text":"Schedule a no-commitment conversation. We analyze your scenario and show how the América Consulting methodology delivers real results.",
+  "contact.fn":"Name","contact.fn.ph":"Your full name","contact.empresa":"Company","contact.empresa.ph":"Company name","contact.email":"E-mail","contact.wpp":"WhatsApp",
+  "contact.fat":"Approximate monthly revenue","contact.fat.ph":"Select a range","contact.fat.op1":"Up to R$ 50k/month","contact.fat.op2":"R$ 50k – R$ 200k/month","contact.fat.op3":"R$ 200k – R$ 500k/month","contact.fat.op4":"Above R$ 500k/month",
+  "contact.msg":"Message (optional)","contact.msg.ph":"Tell us briefly about your business...","contact.btn":"Send message",
+  "contact.success.h3":"Message sent.","contact.success.p":"A América Consulting specialist will contact you shortly.",
+  "alert.name":"Please enter your name.","alert.email":"Please enter a valid email."
+},
+es:{
+  "nav.metodologia":"Metodología","nav.tecnologia":"Tecnología","nav.bi":"Business Intelligence","nav.contato":"Contacto","nav.cta":"Hablar con un especialista",
+  "hero.eyebrow":"Programa de Gestión Financiera","hero.h1":"Los datos sin dirección<br>son solo <em>números.</em>","hero.sub":"Estructuramos finanzas, datos e indicadores para empresarios que buscan crecimiento con control, generación de caja y valorización empresarial.","hero.btn2":"Conocer Valora","hero.scroll":"Sigue explorando",
+  "connect.eyebrow":"Transformación","connect.title":"Tu empresa puede<br>funcionar sola...","connect.text":"Traemos Tecnología y gestión con datos precisos.<br>¡Da el primer paso!","connect.btn":"Dar el primer paso",
+  "met.eyebrow":"Nuestra metodología","met.title":"4 frentes.<br><em>1 resultado.</em>","met.desc":"Un enfoque integrado que une diagnóstico financiero, tecnología de punta, estrategia y seguimiento continuo para transformar definitivamente la gestión de tu negocio.",
+  "met.card1.tag":"Diagnóstico","met.card1.text":"Mapeo completo de la salud financiera, flujo de caja y oportunidades ocultas en el negocio.","met.card1.cta":"Saber más",
+  "met.card2.tag":"Tecnología & BI","met.card2.text":"Plataforma Valora con dashboards en tiempo real y automatizaciones para decisiones más precisas.","met.card2.cta":"Conocer Valora",
+  "met.card3.tag":"Estrategia Financiera","met.card3.text":"Planificación, proyecciones y estructura tributaria optimizada para un crecimiento sostenible.","met.card3.cta":"Saber más",
+  "met.card4.tag":"Seguimiento","met.card4.text":"Reuniones periódicas, informes ejecutivos y ajustes continuos con consultor dedicado.","met.card4.cta":"Saber más",
+  "tech.eyebrow":"Aplicaciones Tecnológicas","tech.title":"Infraestructura que<br>sustenta cada <em>decisión.</em>",
+  "tech.li1":"Creación de SaaS propietario","tech.li2":"Sistemas de gestión personalizados","tech.li3":"Control y seguridad de datos","tech.li4":"Arquitectura de software","tech.li5":"Ingeniería de negocios","tech.li6":"Compliance digital","tech.li7":"Gobernanza corporativa de datos","tech.li8":"Inteligencia Artificial aplicada","tech.explore":"Explora nuestras soluciones tecnológicas",
+  "bi.eyebrow":"Business Intelligence","bi.title":"Datos que <em>hablan.</em><br>Decisiones que <em>ganan.</em>","bi.text":"Desarrollamos dashboards y plataformas de BI personalizados — del diagnóstico al deploy. Transformamos datos brutos en inteligencia visual y accionable para tu operación.","bi.btn":"Quiero un dashboard",
+  "valora.eyebrow":"Tecnología propietaria","valora.title":"Plataforma <em>Valora</em>","valora.text":"Dashboards interactivos, KPIs en tiempo real y visualizaciones que transforman números complejos en decisiones simples. Tecnología exclusiva entregada a cada cliente de América Consulting.","valora.btn":"Solicitar demostración",
+  "will.eyebrow":"Inteligencia Artificial Aplicada","will.sub":"El asistente ejecutivo de IA entrenado con los datos de tu negocio. Un JARVIS para CEOs y líderes — responde sobre finanzas, operaciones y KPIs con maestría de especialista.",
+  "will.feat1":"Habla sobre finanzas y KPIs en lenguaje natural","will.feat2":"Aprende y memoriza los patrones de tu empresa","will.feat3":"Actúa como un socio estratégico — disponible 24h","will.feat4":"Se integra con datos reales vía IA y machine learning","will.btn":"Quiero conocer WILL",
+  "will.phrases":["Entrenado con los datos de tu empresa.","Responde sobre finanzas con precisión quirúrgica.","Como un Jarvis — pero para ejecutivos reales.","Aprende, evoluciona y actúa como un socio estratégico.","KPIs, flujo de caja y márgenes en lenguaje natural.","Machine learning aplicado a tu negocio."],
+  "contact.eyebrow":"Contacto","contact.title":"¿Listo para<br><em>transformar</em><br>tu negocio?","contact.text":"Agenda una conversación sin compromiso. Analizamos tu escenario y mostramos cómo la metodología América Consulting genera resultados reales.",
+  "contact.fn":"Nombre","contact.fn.ph":"Tu nombre completo","contact.empresa":"Empresa","contact.empresa.ph":"Nombre de la empresa","contact.email":"E-mail","contact.wpp":"WhatsApp",
+  "contact.fat":"Facturación mensual aproximada","contact.fat.ph":"Selecciona un rango","contact.fat.op1":"Hasta R$ 50k/mes","contact.fat.op2":"R$ 50k – R$ 200k/mes","contact.fat.op3":"R$ 200k – R$ 500k/mes","contact.fat.op4":"Más de R$ 500k/mes",
+  "contact.msg":"Mensaje (opcional)","contact.msg.ph":"Cuéntanos brevemente sobre tu negocio...","contact.btn":"Enviar mensaje",
+  "contact.success.h3":"Mensaje enviado.","contact.success.p":"En breve un especialista de América Consulting se pondrá en contacto.",
+  "alert.name":"Por favor ingresa tu nombre.","alert.email":"Por favor ingresa un email válido."
+}};
+let currentLang=localStorage.getItem('lang')||'pt';
+function setLang(lang){
+  currentLang=lang;
+  localStorage.setItem('lang',lang);
+  document.documentElement.lang=lang==='pt'?'pt-BR':lang;
+  const t=I18N[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(t[k]!==undefined)el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml;if(t[k]!==undefined)el.innerHTML=t[k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.dataset.i18nPh;if(t[k]!==undefined)el.placeholder=t[k];});
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  const sel=document.getElementById('fselect');
+  if(sel){const ops=[[t['contact.fat.ph'],'',true],[t['contact.fat.op1'],'1'],[t['contact.fat.op2'],'2'],[t['contact.fat.op3'],'3'],[t['contact.fat.op4'],'4']];sel.innerHTML='';ops.forEach(([tx,v,dis])=>{const o=document.createElement('option');o.text=tx;o.value=v;if(dis){o.disabled=true;o.selected=true;}sel.appendChild(o);});}
+  if(window.willRestart)window.willRestart(t['will.phrases']);
+}
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
@@ -463,10 +563,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 })();
 (function(){
   const el=document.getElementById('willTyped');if(!el)return;
-  const phrases=['Treinado nos dados da sua empresa.','Responde sobre finanças com precisão cirúrgica.','Como um Jarvis — mas para executivos reais.','Aprende, evolui e age como um sócio estratégico.','KPIs, fluxo de caixa e margens em linguagem natural.','Machine learning aplicado ao seu negócio.'];
-  let pi=0,ci=0,del=false;
-  function tick(){const p=phrases[pi];if(!del){el.textContent=p.slice(0,++ci);if(ci>=p.length){del=true;setTimeout(tick,2400);return;}setTimeout(tick,44);}else{el.textContent=p.slice(0,--ci);if(ci<=0){del=false;pi=(pi+1)%phrases.length;setTimeout(tick,380);return;}setTimeout(tick,20);}}
-  setTimeout(tick,800);
+  window.willPhrases=I18N[currentLang]['will.phrases'].slice();
+  let pi=0,ci=0,del=false,tt;
+  function tick(){const p=window.willPhrases[pi%window.willPhrases.length];if(!del){el.textContent=p.slice(0,++ci);if(ci>=p.length){del=true;clearTimeout(tt);tt=setTimeout(tick,2400);return;}clearTimeout(tt);tt=setTimeout(tick,44);}else{el.textContent=p.slice(0,--ci);if(ci<=0){del=false;pi=(pi+1)%window.willPhrases.length;clearTimeout(tt);tt=setTimeout(tick,380);return;}clearTimeout(tt);tt=setTimeout(tick,20);}}
+  window.willRestart=function(phrases){window.willPhrases=phrases.slice();pi=0;ci=0;del=false;clearTimeout(tt);el.textContent='';tt=setTimeout(tick,380);};
+  tt=setTimeout(tick,800);
 })();
 (function(){
   const canvas=document.getElementById('techCanvas');if(!canvas)return;
@@ -490,11 +591,13 @@ function sendForm(){
   const n=document.getElementById('fn').value.trim();
   const e=document.getElementById('fe').value.trim();
   const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-  if(!n){alert('Por favor preencha seu nome.');return;}
-  if(!e||!emailOk){alert('Por favor preencha um e-mail válido.');return;}
+  const t=I18N[currentLang];
+  if(!n){alert(t['alert.name']);return;}
+  if(!e||!emailOk){alert(t['alert.email']);return;}
   document.getElementById('cform').style.display='none';
   document.getElementById('fsuccess').classList.add('on');
 }
+setLang(currentLang);
 </script>
 </body>
 </html>
